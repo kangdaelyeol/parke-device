@@ -1,11 +1,11 @@
 /**
  ****************************************************************************************
  *
- * @file da14531_config_advanced.h
+ * @file da14535_config_advanced.h
  *
  * @brief Advanced compile configuration file.
  *
- * Copyright (C) 2014-2023 Renesas Electronics Corporation and/or its affiliates.
+ * Copyright (C) 2022-2023 Renesas Electronics Corporation and/or its affiliates.
  * All rights reserved. Confidential Information.
  *
  * This software ("Software") is supplied by Renesas Electronics Corporation and/or its
@@ -31,8 +31,8 @@
  ****************************************************************************************
  */
 
-#ifndef _DA14531_CONFIG_ADVANCED_H_
-#define _DA14531_CONFIG_ADVANCED_H_
+#ifndef _DA14535_CONFIG_ADVANCED_H_
+#define _DA14535_CONFIG_ADVANCED_H_
 
 #include "da1458x_stack_config.h"
 
@@ -78,7 +78,7 @@
 /* If the macro is defined, the ECDH keys will be created only once after the system start-up. If the legacy    */
 /* pairing is to be used, it is recommended to undefine the macro in order to gain faster start-up time and     */
 /* reduce the RAM footprint.                                                                                    */
-/* Note for DA14531-01:                                                                                         */
+/* Note for DA14531-01, DA14535:                                                                                */
 /* The ECDH keys are always created after a pairing request. If the legacy pairing is to be used, it is         */
 /* recommended to undefine the macro in order to reduce the RAM footprint.                                      */
 /****************************************************************************************************************/
@@ -181,11 +181,6 @@
 #undef CFG_BLE_DUPLICATE_FILTER_FOUND
 
 /****************************************************************************************************************/
-/* Resolving list maximum size.                                                                                 */
-/****************************************************************************************************************/
-#define CFG_LLM_RESOLVING_LIST_MAX      LLM_RESOLVING_LIST_MAX
-
-/****************************************************************************************************************/
 /* Enables automatic data packet length negotiation.                                                            */
 /* NOTE: Enable only if peer device supports data length extension!!                                            */
 /****************************************************************************************************************/
@@ -207,11 +202,9 @@
 /* extended sleep, based on his/her application RAM layout. The last RAM block is always retained, since it     */
 /* contains the BLE state and ROM data.                                                                         */
 /*     - CFG_RETAIN_RAM_1_BLOCK: if defined, the 1st RAM block must be retained.                                */
-/*     - CFG_RETAIN_RAM_2_BLOCK: if defined, the 2nd RAM block must be retained.                                */
 /* By default, the SDK keeps all RAM cells retained.                                                            */
 /****************************************************************************************************************/
 #define CFG_RETAIN_RAM_1_BLOCK
-#define CFG_RETAIN_RAM_2_BLOCK
 
 /****************************************************************************************************************/
 /* Non-retained heap handling. The non-retained heap is either empty or not, and it may fill with messages      */
@@ -222,7 +215,6 @@
 /*      - If the macro is undefined then the retention mode of the RAM cell(s), where the non-ret heap resides, */
 /*        is controlled by the following macros:                                                                */
 /*           * CFG_RETAIN_RAM_1_BLOCK                                                                           */
-/*           * CFG_RETAIN_RAM_2_BLOCK                                                                           */
 /****************************************************************************************************************/
 #define CFG_AUTO_DETECT_NON_RET_HEAP
 
@@ -256,4 +248,9 @@
 /****************************************************************************************************************/
 #define CFG_DISABLE_QUADEC_ON_START_UP
 
-#endif // _DA14531_CONFIG_ADVANCED_H_
+/****************************************************************************************************************/
+/* Enables the XTAL32M dynamic frequency trimming based on the temperature changes.                             */
+/****************************************************************************************************************/
+#undef CFG_XTAL32M_DYN_FREQ_TRIMMING
+
+#endif // _DA14535_CONFIG_ADVANCED_H_

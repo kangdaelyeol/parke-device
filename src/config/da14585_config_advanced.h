@@ -1,11 +1,11 @@
 /**
  ****************************************************************************************
  *
- * @file da14531_config_advanced.h
+ * @file da14585_config_advanced.h
  *
  * @brief Advanced compile configuration file.
  *
- * Copyright (C) 2014-2023 Renesas Electronics Corporation and/or its affiliates.
+ * Copyright (C) 2014-2024 Renesas Electronics Corporation and/or its affiliates.
  * All rights reserved. Confidential Information.
  *
  * This software ("Software") is supplied by Renesas Electronics Corporation and/or its
@@ -31,8 +31,8 @@
  ****************************************************************************************
  */
 
-#ifndef _DA14531_CONFIG_ADVANCED_H_
-#define _DA14531_CONFIG_ADVANCED_H_
+#ifndef _DA14585_CONFIG_ADVANCED_H_
+#define _DA14585_CONFIG_ADVANCED_H_
 
 #include "da1458x_stack_config.h"
 
@@ -42,7 +42,15 @@
 /*      -LP_CLK_RCX20       Internal RCX clock                                                                  */
 /*      -LP_CLK_FROM_OTP    Use the selection in the corresponding field of OTP Header                          */
 /****************************************************************************************************************/
-#define CFG_LP_CLK              LP_CLK_RCX20
+#define CFG_LP_CLK              LP_CLK_XTAL32
+
+/****************************************************************************************************************/
+/* If defined the application uses a hardcoded value for XTAL16M trimming. Should be disabled for devices       */
+/* where XTAL16M is calibrated and trim value is stored in OTP.                                                 */
+/* Important note. The hardcoded value is the average value of the trimming values giving the optimal results   */
+/* for DA14585 DK devices. May not be applicable in other designs                                               */
+/****************************************************************************************************************/
+#define CFG_USE_DEFAULT_XTAL16M_TRIM_VALUE_IF_NOT_CALIBRATED
 
 /****************************************************************************************************************/
 /* Periodic wakeup period to poll GTL iface. Time in msec.                                                      */
@@ -66,9 +74,17 @@
 
 /****************************************************************************************************************/
 /* Enables True Random Number Generator. A true random number, generated at system initialization, is used to   */
-/* seed any random number generator (C standard library, ChaCha20, etc.).                                       */
+/* seed any random number generator (C standard library, ChaCha20, etc.). The following supported options       */
+/* provide a trade-off between code size and start-up latency.                                                  */
+/* - undefined (or 0): TRNG is disabled.                                                                        */
+/* -   32:  Enables TRNG with   32 Bytes Buffer.                                                                */
+/* -   64:  Enables TRNG with   64 Bytes Buffer.                                                                */
+/* -  128:  Enables TRNG with  128 Bytes Buffer.                                                                */
+/* -  256:  Enables TRNG with  256 Bytes Buffer.                                                                */
+/* -  512:  Enables TRNG with  512 Bytes Buffer.                                                                */
+/* - 1024:  Enables TRNG with 1024 Bytes Buffer.                                                                */
 /****************************************************************************************************************/
-#define CFG_TRNG
+#define CFG_TRNG (1024)
 
 /****************************************************************************************************************/
 /* Secure connections support.                                                                                  */
@@ -208,10 +224,12 @@
 /* contains the BLE state and ROM data.                                                                         */
 /*     - CFG_RETAIN_RAM_1_BLOCK: if defined, the 1st RAM block must be retained.                                */
 /*     - CFG_RETAIN_RAM_2_BLOCK: if defined, the 2nd RAM block must be retained.                                */
+/*     - CFG_RETAIN_RAM_3_BLOCK: if defined, the 3rd RAM block must be retained.                                */
 /* By default, the SDK keeps all RAM cells retained.                                                            */
 /****************************************************************************************************************/
 #define CFG_RETAIN_RAM_1_BLOCK
 #define CFG_RETAIN_RAM_2_BLOCK
+#define CFG_RETAIN_RAM_3_BLOCK
 
 /****************************************************************************************************************/
 /* Non-retained heap handling. The non-retained heap is either empty or not, and it may fill with messages      */
@@ -223,6 +241,7 @@
 /*        is controlled by the following macros:                                                                */
 /*           * CFG_RETAIN_RAM_1_BLOCK                                                                           */
 /*           * CFG_RETAIN_RAM_2_BLOCK                                                                           */
+/*           * CFG_RETAIN_RAM_3_BLOCK                                                                           */
 /****************************************************************************************************************/
 #define CFG_AUTO_DETECT_NON_RET_HEAP
 
@@ -242,18 +261,26 @@
 #undef CFG_CODE_SIZE_FOR_OTP_COPY_ON
 
 /****************************************************************************************************************/
-/* Temperature range selection (it applies to hibernation mode only).                                           */
+/* Temperature range selection.                                                                                 */
 /* - CFG_HIGH_TEMPERATURE:         Device is configured to operate at high temperature range (-40C to +105C).   */
 /* - CFG_AMB_TEMPERATURE:          Device is configured to operate at ambient temperature range (-40C to +40C). */
 /* - CFG_MID_TEMPERATURE:          Device is configured to operate at mid temperature range (-40C to +60C).     */
 /* - CFG_EXT_TEMPERATURE:          Device is configured to operate at ext temperature range (-40C to +85C).     */
+/* NOTE 1: High temperature support is not compatible with power optimizations. User shall undefine the         */
+/*         CFG_POWER_OPTIMIZATIONS flag, if device is to support the high temperature range feature.            */
 /****************************************************************************************************************/
 #define CFG_AMB_TEMPERATURE
 
 /****************************************************************************************************************/
-/* Disable quadrature decoder on start up. The quadrature decoder is by default enabled on system power up and  */
-/* it may count events. This leads to WKUP_QUADEC_IRQn pending interrupts.                                      */
+/* Enable power optimizations using the XTAL16M adaptive settling algorithm.                                    */
+/* NOTE: The XTAL16M adaptive settling algorithm works only with XTAL32K and not with RCX, as the LP clock.     */
 /****************************************************************************************************************/
-#define CFG_DISABLE_QUADEC_ON_START_UP
+#define CFG_XTAL16M_ADAPTIVE_SETTLING
 
-#endif // _DA14531_CONFIG_ADVANCED_H_
+/****************************************************************************************************************/
+/* Enable the wakeup metrics to measure and obtain statistics about the number of delayed wakeups when in       */
+/* high temperature configuration.Also check lld_sleep_compensate_func(void).                                   */
+/****************************************************************************************************************/
+#undef CFG_ENABLE_WAKEUP_METRICS
+
+#endif // _DA14585_CONFIG_ADVANCED_H_

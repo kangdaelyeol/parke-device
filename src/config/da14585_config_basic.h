@@ -1,7 +1,7 @@
 /**
  ****************************************************************************************
  *
- * @file da14531_config_basic.h
+ * @file da14585_config_basic.h
  *
  * @brief Basic compile configuration file.
  *
@@ -31,8 +31,8 @@
  ****************************************************************************************
  */
 
-#ifndef _DA14531_CONFIG_BASIC_H_
-#define _DA14531_CONFIG_BASIC_H_
+#ifndef _DA14585_CONFIG_BASIC_H_
+#define _DA14585_CONFIG_BASIC_H_
 
 #include "da1458x_stack_config.h"
 #include "user_profiles_config.h"
@@ -60,7 +60,7 @@
 /* Determines maximum concurrent connections supported by application. It configures the heap memory allocated  */
 /* to service multiple connections. It is used for GAP central role applications. For GAP peripheral role it    */
 /* should be set to 1 for optimizing memory utilization.                                                        */
-/*      - MAX value for DA14531: 3                                                                              */
+/*      - MAX value for DA14585: 8                                                                              */
 /****************************************************************************************************************/
 #define CFG_MAX_CONNECTIONS     (1)
 
@@ -107,17 +107,9 @@
 /*     - UART                                                                                                   */
 /*     - SPI                                                                                                    */
 /*     - I2C                                                                                                    */
-/*     - ADC                                                                                                    */
 /****************************************************************************************************************/
 #undef CFG_UART_DMA_SUPPORT
 #undef CFG_SPI_DMA_SUPPORT
 #undef CFG_I2C_DMA_SUPPORT
-#undef CFG_ADC_DMA_SUPPORT
 
-/****************************************************************************************************************/
-/* Notify the SDK about the fixed power mode (currently used only for Bypass):                                  */
-/*     - CFG_POWER_MODE_BYPASS = Bypass mode                                                                    */
-/****************************************************************************************************************/
-#undef CFG_POWER_MODE_BYPASS
-
-#endif // _DA14531_CONFIG_BASIC_H_
+#endif // _DA14585_CONFIG_BASIC_H_

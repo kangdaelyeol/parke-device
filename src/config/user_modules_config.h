@@ -1,11 +1,11 @@
 /**
  ****************************************************************************************
  *
- * @file main.c
+ * @file user_modules_config.h
  *
- * @brief Blinky example
+ * @brief User modules configuration file.
  *
- * Copyright (C) 2012-2025 Renesas Electronics Corporation and/or its affiliates.
+ * Copyright (C) 2015-2025 Renesas Electronics Corporation and/or its affiliates.
  * All rights reserved. Confidential Information.
  *
  * This software ("Software") is supplied by Renesas Electronics Corporation and/or its
@@ -30,65 +30,50 @@
  *
  ****************************************************************************************
  */
-#include <stdio.h>
-#include "arch_system.h"
-#include "uart.h"
-#include "uart_utils.h"
-#include "user_periph_setup.h"
-#include "gpio.h"
 
-
-
-#define LED_OFF_THRESHOLD           10000
-#define LED_ON_THRESHOLD            400000
+#ifndef _USER_MODULES_CONFIG_H_
+#define _USER_MODULES_CONFIG_H_
 
 /**
  ****************************************************************************************
- * @brief Blinky test function
+ * @addtogroup APP
+ * @ingroup RICOW
+ *
+ * @brief User modules configuration.
+ *
+ * @{
  ****************************************************************************************
  */
-void blinky_test(void);
 
-/**
- ****************************************************************************************
- * @brief Main routine of the Blinky example
+/*
+ * DEFINES
  ****************************************************************************************
  */
-int main (void)
-{
-    system_init();
-    while ((GetWord16(SYS_STAT_REG) & XTAL32M_SETTLED) == 0);
-    blinky_test();
-}
 
-void blinky_test(void)
-{
-    volatile int i=0;
+/***************************************************************************************/
+/* Exclude or not a module in user's application code.                                 */
+/*                                                                                     */
+/* (0) - The module is included. The module's messages are handled by the SDK.         */
+/*                                                                                     */
+/* (1) - The module is excluded. The user must handle the module's messages.           */
+/*                                                                                     */
+/* Note:                                                                               */
+/*      This setting has no effect if the respective module is a BLE Profile           */
+/*      that is not used included in the user's application.                           */
+/***************************************************************************************/
+#define EXCLUDE_DLG_GAP             (0)
+#define EXCLUDE_DLG_TIMER           (0)
+#define EXCLUDE_DLG_MSG             (1)
+#define EXCLUDE_DLG_SEC             (1)
+#define EXCLUDE_DLG_DISS            (0)
+#define EXCLUDE_DLG_PROXR           (1)
+#define EXCLUDE_DLG_BASS            (1)
+#define EXCLUDE_DLG_FINDL           (1)
+#define EXCLUDE_DLG_FINDT           (1)
+#define EXCLUDE_DLG_SUOTAR          (1)
+#define EXCLUDE_DLG_CUSTS1          (0)
+#define EXCLUDE_DLG_CUSTS2          (1)
 
-    printf_string(UART, "\n\r\n\r");
-    printf_string(UART, "***************\n\r");
-    printf_string(UART, "* BLINKY DEMO *\n\r");
-    printf_string(UART, "***************\n\r");
+/// @} APP
 
-    while(1)
-    {
-        i++;
-
-        if (LED_OFF_THRESHOLD == i)
-        {
-            GPIO_SetActive(LED_PORT, LED_PIN);
-            printf_string(UART, "\n\r *LED ON* ");
-        }
-
-        if (LED_ON_THRESHOLD == i)
-        {
-            GPIO_SetInactive(LED_PORT, LED_PIN);
-            printf_string(UART, "\n\r *LED OFF* ");
-        }
-
-        if (i == 2 * LED_ON_THRESHOLD)
-        {
-            i = 0;
-        }
-    }
-}
+#endif // _USER_MODULES_CONFIG_H_

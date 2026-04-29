@@ -5,7 +5,7 @@
  *
  * @brief Configuration file for the profiles used in the application.
  *
- * Copyright (C) 2015-2025 Renesas Electronics Corporation and/or its affiliates.
+ * Copyright (C) 2017-2023 Renesas Electronics Corporation and/or its affiliates.
  * All rights reserved. Confidential Information.
  *
  * This software ("Software") is supplied by Renesas Electronics Corporation and/or its
@@ -151,14 +151,9 @@
 
 /*
  ****************************************************************************************
- * SUOTA application profile configuration
+ * CUST1 application profile configuration
  ****************************************************************************************
  */
-
-///SUOTA default version checking parameters
-#define SDK_VERSION_STRING_DELIMITER      "."
-#define SDK_VERSION_STRING_MAX_TOKENS      4
-#define SDK_VERSION_STRING_SIZE            (IMAGE_HEADER_VERSION_SIZE)
 
 /// @} APP_CONFIG
 
