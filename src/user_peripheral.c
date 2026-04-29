@@ -51,6 +51,7 @@
 #include "user_custs1_impl.h"
 #include "user_custs1_def.h"
 #include "co_bt.h"
+#include "arch_console.h"
 
 /*
  * TYPE DEFINITIONS
@@ -452,4 +453,18 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
     }
 }
 
+void user_on_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
+{
+    default_app_on_connection(connection_idx, param);
+}
+
+void user_on_disconnect( struct gapc_disconnect_ind const *param )
+{
+    default_app_on_disconnect(param);
+}
+
+void user_app_on_adv_undirect_complete(uint8_t status)
+{
+   while(1);
+}
 /// @} APP

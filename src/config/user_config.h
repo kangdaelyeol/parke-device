@@ -39,10 +39,10 @@
  ****************************************************************************************
  */
 
+#include "app_adv_data.h"
+#include "app_default_handlers.h"
 #include "app_user_config.h"
 #include "arch_api.h"
-#include "app_default_handlers.h"
-#include "app_adv_data.h"
 #include "co_bt.h"
 
 /*
@@ -70,7 +70,7 @@
  * Select only one option for privacy / addressing configuration.
  **************************************************************************
  */
-#define USER_CFG_ADDRESS_MODE       APP_CFG_ADDR_PUB
+#define USER_CFG_ADDRESS_MODE APP_CFG_ADDR_PUB
 
 /*************************************************************************
  * Controller Privacy Mode:
@@ -80,7 +80,7 @@
  * Select only one option for controller privacy mode configuration.
  **************************************************************************
  */
-#define USER_CFG_CNTL_PRIV_MODE     APP_CFG_CNTL_PRIV_MODE_NETWORK
+#define USER_CFG_CNTL_PRIV_MODE APP_CFG_CNTL_PRIV_MODE_NETWORK
 
 /*
  * VARIABLES
@@ -110,10 +110,10 @@ static const struct advertise_configuration user_adv_conf = {
     .addr_src = APP_CFG_ADDR_SRC(USER_CFG_ADDRESS_MODE),
 
     /// Minimum interval for advertising
-    .intv_min = MS_TO_BLESLOTS(687.5),                    // 687.5ms
+    .intv_min = MS_TO_BLESLOTS(687.5),  // 687.5ms
 
     /// Maximum interval for advertising
-    .intv_max = MS_TO_BLESLOTS(687.5),                    // 687.5ms
+    .intv_max = MS_TO_BLESLOTS(687.5),  // 687.5ms
 
     /**
      *  Advertising channels map:
@@ -179,21 +179,18 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Advertising data
-#define USER_ADVERTISE_DATA         ("\x03"\
-                                    ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS\
-                                    ADV_UUID_DEVICE_INFORMATION_SERVICE\
-                                    "\x11"\
-                                    ADV_TYPE_COMPLETE_LIST_128BIT_SERVICE_IDS\
-                                    "\x59\x5A\x08\xE4\x86\x2A\x9E\x8F\xE9\x11\xBC\x7C\x98\x43\x42\x18")
+#define USER_ADVERTISE_DATA ("\x03" ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS ADV_UUID_DEVICE_INFORMATION_SERVICE \
+	                         "\x11" ADV_TYPE_COMPLETE_LIST_128BIT_SERVICE_IDS                                    \
+	                         "\x59\x5A\x08\xE4\x86\x2A\x9E\x8F\xE9\x11\xBC\x7C\x98\x43\x42\x18")
 
 /// Advertising data length - maximum 28 bytes, 3 bytes are reserved to set
-#define USER_ADVERTISE_DATA_LEN               (sizeof(USER_ADVERTISE_DATA)-1)
+#define USER_ADVERTISE_DATA_LEN (sizeof(USER_ADVERTISE_DATA) - 1)
 
 /// Scan response data
 #define USER_ADVERTISE_SCAN_RESPONSE_DATA ""
 
 /// Scan response data length- maximum 31 bytes
-#define USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN (sizeof(USER_ADVERTISE_SCAN_RESPONSE_DATA)-1)
+#define USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN (sizeof(USER_ADVERTISE_SCAN_RESPONSE_DATA) - 1)
 
 /*
  ****************************************************************************************
@@ -208,10 +205,10 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Device name
-#define USER_DEVICE_NAME        "DLG-PRPH"
+#define USER_DEVICE_NAME "DLG-PRPH"
 
 /// Device name length
-#define USER_DEVICE_NAME_LEN    (sizeof(USER_DEVICE_NAME)-1)
+#define USER_DEVICE_NAME_LEN (sizeof(USER_DEVICE_NAME) - 1)
 
 /*
  ****************************************************************************************
@@ -231,7 +228,7 @@ static const struct gapm_configuration user_gapm_conf = {
     /// Device Address Type
     .addr_type = APP_CFG_ADDR_TYPE(USER_CFG_ADDRESS_MODE),
     /// Duration before regenerating the Random Private Address when privacy is enabled
-    .renew_dur = 15000,    // 15000 * 10ms = 150s is the minimum value
+    .renew_dur = 15000,  // 15000 * 10ms = 150s is the minimum value
 
     /***********************
      * Privacy configuration
@@ -328,7 +325,7 @@ static const struct connection_param_configuration user_connection_param_conf = 
  *
  ****************************************************************************************
  */
-static const struct default_handlers_configuration  user_default_hnd_conf = {
+static const struct default_handlers_configuration user_default_hnd_conf = {
     // Configure the advertise operation used by the default handlers
     // Possible values:
     //  - DEF_ADV_FOREVER
@@ -338,15 +335,14 @@ static const struct default_handlers_configuration  user_default_hnd_conf = {
     // Configure the advertise period in case of DEF_ADV_WITH_TIMEOUT.
     // It is measured in timer units (3 min). Use MS_TO_TIMERUNITS macro to convert
     // from milliseconds (ms) to timer units.
-    .advertise_period = MS_TO_TIMERUNITS(180000),
+    .advertise_period = MS_TO_TIMERUNITS(18000),
 
     // Configure the security start operation of the default handlers
     // if the security is enabled (CFG_APP_SECURITY)
     // Possible values:
     //  - DEF_SEC_REQ_NEVER
     //  - DEF_SEC_REQ_ON_CONNECT
-    .security_request_scenario = DEF_SEC_REQ_NEVER
-};
+    .security_request_scenario = DEF_SEC_REQ_NEVER};
 
 /*
  ****************************************************************************************
@@ -373,7 +369,7 @@ static const struct central_configuration user_central_conf = {
     /// Scan window size
     .scan_window = 0x160,
 
-     /// Minimum of connection interval
+    /// Minimum of connection interval
     .con_intv_min = 100,
 
     /// Maximum of connection interval
@@ -385,7 +381,7 @@ static const struct central_configuration user_central_conf = {
     /// Link supervision timeout
     .superv_to = 0x1F4,
 
-     /// Minimum CE length
+    /// Minimum CE length
     .ce_len_min = 0,
 
     /// Maximum CE length
@@ -453,54 +449,54 @@ static const struct central_configuration user_central_conf = {
  ****************************************************************************************
  */
 static const struct security_configuration user_security_conf = {
-    // IO Capabilities
-    #if defined (USER_CFG_FEAT_IO_CAP)
-    .iocap          = USER_CFG_FEAT_IO_CAP,
-    #else
-    .iocap          = GAP_IO_CAP_NO_INPUT_NO_OUTPUT,
-    #endif
+// IO Capabilities
+#if defined(USER_CFG_FEAT_IO_CAP)
+    .iocap = USER_CFG_FEAT_IO_CAP,
+#else
+    .iocap = GAP_IO_CAP_NO_INPUT_NO_OUTPUT,
+#endif
 
-    // OOB Capabilities
-    #if defined (USER_CFG_FEAT_OOB)
-    .oob            = USER_CFG_FEAT_OOB,
-    #else
-    .oob            = GAP_OOB_AUTH_DATA_NOT_PRESENT,
-    #endif
+// OOB Capabilities
+#if defined(USER_CFG_FEAT_OOB)
+    .oob = USER_CFG_FEAT_OOB,
+#else
+    .oob = GAP_OOB_AUTH_DATA_NOT_PRESENT,
+#endif
 
-    // Authentication Requirements
-    #if defined (USER_CFG_FEAT_AUTH_REQ)
-    .auth           = USER_CFG_FEAT_AUTH_REQ,
-    #else
-    .auth           = GAP_AUTH_NONE,
-    #endif
+// Authentication Requirements
+#if defined(USER_CFG_FEAT_AUTH_REQ)
+    .auth = USER_CFG_FEAT_AUTH_REQ,
+#else
+    .auth = GAP_AUTH_NONE,
+#endif
 
-    // LTK size
-    #if defined (USER_CFG_FEAT_KEY_SIZE)
-    .key_size       = USER_CFG_FEAT_KEY_SIZE,
-    #else
-    .key_size       = KEY_LEN,
-    #endif
+// LTK size
+#if defined(USER_CFG_FEAT_KEY_SIZE)
+    .key_size = USER_CFG_FEAT_KEY_SIZE,
+#else
+    .key_size = KEY_LEN,
+#endif
 
-    // Initiator key distribution
-    #if defined (USER_CFG_FEAT_INIT_KDIST)
-    .ikey_dist      = USER_CFG_FEAT_INIT_KDIST,
-    #else
-    .ikey_dist      = GAP_KDIST_NONE,
-    #endif
+// Initiator key distribution
+#if defined(USER_CFG_FEAT_INIT_KDIST)
+    .ikey_dist = USER_CFG_FEAT_INIT_KDIST,
+#else
+    .ikey_dist = GAP_KDIST_NONE,
+#endif
 
-    // Responder key distribution
-    #if defined (USER_CFG_FEAT_RESP_KDIST)
-    .rkey_dist      = USER_CFG_FEAT_RESP_KDIST,
-    #else
-    .rkey_dist      = GAP_KDIST_ENCKEY,
-    #endif
+// Responder key distribution
+#if defined(USER_CFG_FEAT_RESP_KDIST)
+    .rkey_dist = USER_CFG_FEAT_RESP_KDIST,
+#else
+    .rkey_dist = GAP_KDIST_ENCKEY,
+#endif
 
-    // Security requirements (minimum security level)
-    #if defined (USER_CFG_FEAT_SEC_REQ)
-    .sec_req        = USER_CFG_FEAT_SEC_REQ,
-    #else
-    .sec_req        = GAP_NO_SEC,
-    #endif
+// Security requirements (minimum security level)
+#if defined(USER_CFG_FEAT_SEC_REQ)
+    .sec_req = USER_CFG_FEAT_SEC_REQ,
+#else
+    .sec_req = GAP_NO_SEC,
+#endif
 };
 
-#endif // _USER_CONFIG_H_
+#endif  // _USER_CONFIG_H_

@@ -144,6 +144,12 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           ke_task_id_t const dest_id,
                           ke_task_id_t const src_id);
 
+void user_on_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param);
+
+void user_on_disconnect( struct gapc_disconnect_ind const *param );
+
+void user_app_on_adv_undirect_complete(uint8_t status);
+
 /// @} APP
 
 #endif // _USER_PERIPHERAL_H_

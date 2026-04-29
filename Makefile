@@ -211,9 +211,13 @@ USER_SRC := \
 # ----------------------------------------------------------------
 # Source files: app + required SDK platform files
 # ----------------------------------------------------------------
-# SDK sources for DA14531 BLE
+# SDK sources for DA14531 BLE 
+# $(SDK_ROOT)/sdk/app_modules/src/app_bond_db/app_bond_db.c \
+    $(SDK_ROOT)/sdk/app_modules/src/app_sec/app_security_task.c \
+    $(SDK_ROOT)/sdk/app_modules/src/app_sec/app_security.c \
+    $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_security.c \
+dasd
 SDK_SRC := \
-    $(SDK_ROOT)/sdk/app_modules/src/app_bond_db/app_bond_db.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_common/app_msg_utils.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_common/app_task.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_common/app_utils.c \
@@ -226,13 +230,10 @@ SDK_SRC := \
     $(SDK_ROOT)/sdk/app_modules/src/app_diss/app_diss.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_crypto.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_msg_utils.c \
-    $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_security.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_storage.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_timer.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_easy/app_easy_whitelist.c \
     $(SDK_ROOT)/sdk/app_modules/src/app_entry/app_entry_point.c \
-    $(SDK_ROOT)/sdk/app_modules/src/app_sec/app_security_task.c \
-    $(SDK_ROOT)/sdk/app_modules/src/app_sec/app_security.c \
     $(SDK_ROOT)/sdk/ble_stack/host/att/attm/attm_db_128.c \
     $(SDK_ROOT)/sdk/ble_stack/profiles/custom/custom_common.c \
     $(SDK_ROOT)/sdk/ble_stack/profiles/custom/custs/src/custs1_task.c \

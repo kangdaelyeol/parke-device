@@ -68,11 +68,10 @@ void GPIO_reservations(void)
 #if defined (CFG_PRINTF_UART2)
     RESERVE_GPIO(UART2_TX, UART2_TX_PORT, UART2_TX_PIN, PID_UART2_TX);
 #endif
-
-    RESERVE_GPIO(LED, GPIO_LED_PORT, GPIO_LED_PIN, PID_GPIO);
+    // RESERVE_GPIO(LED, GPIO_LED_PORT, GPIO_LED_PIN, PID_GPIO);
 
 #if !defined (__DA14586__)
-    RESERVE_GPIO(SPI_EN, SPI_EN_PORT, SPI_EN_PIN, PID_SPI_EN);
+    // RESERVE_GPIO(SPI_EN, SPI_EN_PORT, SPI_EN_PIN, PID_SPI_EN);
 #endif
 }
 
@@ -90,7 +89,7 @@ void set_pad_functions(void)
     GPIO_ConfigurePin(GPIO_PORT_2, GPIO_PIN_3, OUTPUT, PID_GPIO, true);
 #else
     // Disallow spontaneous SPI Flash wake-up
-    GPIO_ConfigurePin(SPI_EN_PORT, SPI_EN_PIN, OUTPUT, PID_SPI_EN, true);
+    // GPIO_ConfigurePin(SPI_EN_PORT, SPI_EN_PIN, OUTPUT, PID_SPI_EN, true);
 #endif
 
 #if defined (CFG_PRINTF_UART2)
@@ -98,7 +97,7 @@ void set_pad_functions(void)
     GPIO_ConfigurePin(UART2_TX_PORT, UART2_TX_PIN, OUTPUT, PID_UART2_TX, false);
 #endif
 
-    GPIO_ConfigurePin(GPIO_LED_PORT, GPIO_LED_PIN, OUTPUT, PID_GPIO, false);
+    // GPIO_ConfigurePin(GPIO_LED_PORT, GPIO_LED_PIN, OUTPUT, PID_GPIO, false);
 }
 
 #if defined (CFG_PRINTF_UART2)
@@ -121,11 +120,14 @@ void periph_init(void)
 #if defined (__DA14531__)
     // Select FPGA GPIO_MAP 1
     // set debugger SWD to SW_CLK = P0[2], SW_DIO=P0[5]
-    FPGA_HELPER(FPGA_GPIO_MAP_1, SWD_DATA_AT_P0_5);
+    // FPGA_HELPER(FPGA_GPIO_MAP_1, SWD_DATA_AT_P0_5);
+      GPIO_Disable_HW_Reset();
+      SetBits16(SYS_CTRL_REG, DEBUGGER_ENABLE, SWD_DATA_AT_P0_10);
 
     // In Boost mode enable the DCDC converter to supply VBAT_HIGH for the used GPIOs
     // Assumption: The connected external peripheral is powered by 3V
-    syscntl_dcdc_turn_on_in_boost(SYSCNTL_DCDC_LEVEL_3V0);
+    // syscntl_dcdc_turn_on_in_boost(SYSCNTL_DCDC_LEVEL_3V0);
+     syscntl_dcdc_turn_on_in_buck(SYSCNTL_DCDC_LEVEL_1V8);
 #else
     // Power up peripherals' power domain
     SetBits16(PMU_CTRL_REG, PERIPH_SLEEP, 0);
