@@ -94,7 +94,7 @@
 /****************************************************************************************************************/
 #define DB_HEAP_SZ              512
 // #define ENV_HEAP_SZ             328
-#define MSG_HEAP_SZ             768
+#define MSG_HEAP_SZ             1024
 #define NON_RET_HEAP_SZ         512
 
 

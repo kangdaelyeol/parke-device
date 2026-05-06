@@ -144,6 +144,9 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           ke_task_id_t const dest_id,
                           ke_task_id_t const src_id);
 
+void user_update_manufacturer_data(uint8_t *serial);
+
+
 /// @} APP
 
 arch_main_loop_callback_ret_t user_on_ble_powered(void);

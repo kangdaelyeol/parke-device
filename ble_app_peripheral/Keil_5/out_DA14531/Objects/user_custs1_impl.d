@@ -97,4 +97,5 @@
   ..\..\..\..\..\sdk\platform\driver\spi\spi.h \
   ..\..\..\..\..\sdk\platform\driver\spi\spi_531.h \
   ..\..\..\..\..\sdk\platform\driver\spi_flash\spi_flash.h \
-  ..\..\..\..\..\sdk\platform\driver\i2c\i2c.h
+  ..\..\..\..\..\sdk\platform\driver\i2c\i2c.h ..\src\SEGGER_RTT.h \
+  ..\src\SEGGER_RTT_Conf.h

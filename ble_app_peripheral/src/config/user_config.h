@@ -53,7 +53,7 @@
 
 // 광고 타임아웃 설정 (5초)
 #define APP_ADV_WITH_TIMEOUT    1
-#define APP_ADV_TIMEOUT         500   // 5초 (단위: 10ms)
+#define APP_ADV_TIMEOUT         3000   // 5초 (단위: 10ms)
 
 /*
  ****************************************************************************************
@@ -183,19 +183,23 @@ static const struct advertise_configuration user_adv_conf = {
  *    - The maximum length of the user defined response data shall be 31 bytes.
  ****************************************************************************************
  */
-/// Advertising data
-#define USER_ADVERTISE_DATA         ("\x03"\
+ 
+#define USER_ADVERTISE_DATA         ("\x06"\
+                                    ADV_TYPE_COMPLETE_LOCAL_NAME\
+                                    "Parke"\
+                                    "\x03"\
                                     ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS\
-                                    ADV_UUID_DEVICE_INFORMATION_SERVICE\
-                                    "\x11"\
-                                    ADV_TYPE_COMPLETE_LIST_128BIT_SERVICE_IDS\
-                                    "\x59\x5A\x08\xE4\x86\x2A\x9E\x8F\xE9\x11\xBC\x7C\x98\x43\x42\x18")
+                                    "\x00\xFF"\
+                                    "\x0C"\
+                                    ADV_TYPE_MANUFACTURER_SPECIFIC_DATA\
+                                    "\xFF\xFF"\
+                                    "UNSET000"\
+                                    "\x00")
 
-/// Advertising data length - maximum 28 bytes, 3 bytes are reserved to set
-#define USER_ADVERTISE_DATA_LEN               (sizeof(USER_ADVERTISE_DATA)-1)
+#define USER_ADVERTISE_DATA_LEN     (sizeof(USER_ADVERTISE_DATA)-1)
 
 /// Scan response data
-#define USER_ADVERTISE_SCAN_RESPONSE_DATA ""
+#define USER_ADVERTISE_SCAN_RESPONSE_DATA   ""
 
 /// Scan response data length- maximum 31 bytes
 #define USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN (sizeof(USER_ADVERTISE_SCAN_RESPONSE_DATA)-1)
@@ -213,7 +217,7 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
 /// Device name
-#define USER_DEVICE_NAME        "PARKE_DEVICE"
+#define USER_DEVICE_NAME        "Parke"
 
 /// Device name length
 #define USER_DEVICE_NAME_LEN    (sizeof(USER_DEVICE_NAME)-1)
