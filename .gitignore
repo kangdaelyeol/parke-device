@@ -3,3 +3,4 @@ ldscript_DA14531.lds
 .vscode
 build
 ble_app_peripheral/Keil_5/out_*
+ble_app_peripheral/Keil_5/JLinkLog.txt
