@@ -1059,6 +1059,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\sdk\platform\driver\uart\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1556,18 +1561,6 @@
         </Group>
         <Group>
           <GroupName>RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT_printf.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>New Group</GroupName>
@@ -2627,6 +2620,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\sdk\platform\driver\uart\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3124,18 +3122,6 @@
         </Group>
         <Group>
           <GroupName>RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT_printf.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>New Group</GroupName>
@@ -4144,6 +4130,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\sdk\platform\driver\uart\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -4641,18 +4632,6 @@
         </Group>
         <Group>
           <GroupName>RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT_printf.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>New Group</GroupName>
@@ -5661,6 +5640,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\sdk\platform\driver\uart\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -6158,18 +6142,6 @@
         </Group>
         <Group>
           <GroupName>RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT_printf.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>New Group</GroupName>
@@ -7178,6 +7150,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\..\..\sdk\platform\driver\dma\dma.c</FilePath>
             </File>
+            <File>
+              <FileName>uart_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\..\sdk\platform\driver\uart\uart_utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -7675,18 +7652,6 @@
         </Group>
         <Group>
           <GroupName>RTT</GroupName>
-          <Files>
-            <File>
-              <FileName>SEGGER_RTT.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT.c</FilePath>
-            </File>
-            <File>
-              <FileName>SEGGER_RTT_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\SEGGER_RTT_printf.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>New Group</GroupName>

@@ -8,7 +8,10 @@
 #include "user_custs1_impl.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
-#include "SEGGER_RTT.h"
+#if defined (CFG_PRINTF_UART2)
+#include "uart.h"
+#include "uart_utils.h"
+#endif
 
 void user_svc1_serial_wr_ind_handler(ke_msg_id_t const msgid,
                                      struct custs1_val_write_ind const *param,
@@ -21,7 +24,9 @@ void user_svc1_serial_wr_ind_handler(ke_msg_id_t const msgid,
     char serial[9] = {0};
     memcpy(serial, param->value, 8);
 
-    SEGGER_RTT_printf(0, "Serial received: %s\r\n", serial);
+    printf_string(UART2, "Serial received: ");
+    printf_string(UART2, serial);
+    printf_string(UART2, "\r\n");
 
     // 광고 데이터 업데이트
     user_update_manufacturer_data((uint8_t*)serial);

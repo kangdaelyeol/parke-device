@@ -40,7 +40,6 @@
  */
 
 #include "gpio.h"
-#include "uart.h"
 #include "spi.h"
 #include "spi_flash.h"
 #include "i2c.h"
@@ -102,7 +101,12 @@
 
     #define SPI_DI_PORT             GPIO_PORT_0
     #define SPI_DI_PIN              GPIO_PIN_3
+    #define SPI_MS_MODE             SPI_MS_MODE_MASTER
+    #define SPI_CP_MODE             SPI_CP_MODE_0
+    #define SPI_WSZ                 SPI_MODE_8BIT
+    #define SPI_CS                  SPI_CS_0
 
+// Define SPI Configuration
 #elif !defined (__DA14586__)
     #define SPI_EN_PORT             GPIO_PORT_0
     #define SPI_EN_PIN              GPIO_PIN_3
@@ -117,6 +121,13 @@
     #define SPI_DI_PIN              GPIO_PIN_5
 #endif
 
+#if defined (__DA14531__)
+    #define SPI_SPEED_MODE          SPI_SPEED_MODE_4MHz
+    #define SPI_EDGE_CAPTURE        SPI_MASTER_EDGE_CAPTURE
+#else // (DA14585, DA14586)
+    #define SPI_SPEED_MODE          SPI_SPEED_MODE_4MHz
+#endif
+
 /***************************************************************************************/
 /* Production debug output configuration                                               */
 /***************************************************************************************/
@@ -128,6 +139,13 @@
     #define PRODUCTION_DEBUG_PORT   GPIO_PORT_2
     #define PRODUCTION_DEBUG_PIN    GPIO_PIN_5
 #endif
+#endif
+
+/****************************************************************************************/
+/* SPI Flash configuration                                                              */
+/****************************************************************************************/
+#if !defined (__DA14586__)
+#define SPI_FLASH_DEV_SIZE          (256 * 1024)
 #endif
 
 // Define I2C Configuration

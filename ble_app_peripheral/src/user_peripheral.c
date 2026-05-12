@@ -1,4 +1,4 @@
-#include <stdio.h>
+// #include <stdio.h>
 #include <stdint.h>
 #include "rwip_config.h"
 #include "gattc_task.h"
@@ -9,9 +9,8 @@
 #include "user_custs1_def.h"
 #include "gpio.h"
 #include "i2c.h"
-#include "syscntl.h"
-#include "co_bt.h"
-#include "SEGGER_RTT.h"
+// #include "syscntl.h"
+// #include "co_bt.h"
 #include "lis3dh.h"
 
 /*
@@ -20,6 +19,10 @@
  */
 #define ACCEL_CHECK_INTERVAL    100   // 1초 (단위: 10ms)
 #define ACCEL_MOTION_THRESHOLD  10    // 움직임 감지 임계값
+
+// NVDS TAG 정의 (사용자 정의 TAG)
+#define NVDS_TAG_DEVICE_SERIAL    ((uint8_t)0x80)
+#define NVDS_SERIAL_LEN           8
 
 /*
  * GLOBAL VARIABLES
@@ -66,6 +69,20 @@ void user_app_init(void)
     is_advertising = 0;
     timer_started = false;  
 
+    // NVDS에서 식별자 읽기
+    uint8_t len = NVDS_SERIAL_LEN;
+    uint8_t serial[NVDS_SERIAL_LEN];
+
+    if (nvds_get(NVDS_TAG_DEVICE_SERIAL, &len, serial) == NVDS_OK)
+    {
+        // 저장된 식별자 있음 → 로드
+        memcpy(&g_manufacturer_data[2], serial, NVDS_SERIAL_LEN);
+    }
+    else
+    {
+        // 저장된 식별자 없음 → UNSET000 유지
+    }
+
     // 광고 데이터 초기화
     memcpy(stored_adv_data, USER_ADVERTISE_DATA, USER_ADVERTISE_DATA_LEN);
     stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
@@ -74,32 +91,26 @@ void user_app_init(void)
 
     default_app_on_init();
 
-    SEGGER_RTT_printf(0, "GAP_ERR_NO_ERROR=%d, GAP_ERR_CANCELED=%d\r\n", 
-                  GAP_ERR_NO_ERROR, GAP_ERR_CANCELED);
 
-    // LIS3DH 초기화
+    // 광고 데이터에 manufacturer data 반영
+    memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
+
+    default_app_on_init();
+
     if (lis3dh_detect())
     {
         lis3dh_init();
-        SEGGER_RTT_WriteString(0, "LIS3DH initialized!\r\n");
-    }
-    else
-    {
-        SEGGER_RTT_WriteString(0, "LIS3DH not detected!\r\n");
     }
 }
 
 void user_app_adv_start(void)
 {
-    SEGGER_RTT_WriteString(0, "adv_start called!\r\n");
     struct gapm_start_advertise_cmd* cmd;
     cmd = app_easy_gap_undirected_advertise_get_active();
 
-    SEGGER_RTT_printf(0, "adv_data_len before: %d\r\n", cmd->info.host.adv_data_len);
     
     if (cmd == NULL)
     {
-        SEGGER_RTT_WriteString(0, "ERROR: cmd is NULL!\r\n");
         return;
     }
     // SDK가 자동으로 이름 등을 추가한 후
@@ -113,7 +124,6 @@ void user_app_adv_start(void)
     cmd->info.host.scan_rsp_data_len = stored_scan_rsp_data_len;
 
 
-    SEGGER_RTT_printf(0, "adv_data_len after: %d\r\n", cmd->info.host.adv_data_len);
     
 
     app_easy_gap_undirected_advertise_start();
@@ -129,7 +139,6 @@ void user_app_adv_start(void)
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
 {
-    SEGGER_RTT_printf(0, "Connected! idx=%d\r\n", connection_idx);
     if (app_env[connection_idx].conidx != GAP_INVALID_CONIDX)
     {
         app_connection_idx = connection_idx;
@@ -147,24 +156,19 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
     {
         user_app_adv_start();
     }
-    SEGGER_RTT_printf(0, "start default app_on_connection \r\n");
     default_app_on_connection(connection_idx, param);
-    SEGGER_RTT_printf(0, "finished default app_on_connection \r\n");
 }
 
 void user_app_adv_undirect_complete(uint8_t status)
 {
     is_advertising = 0;
-    SEGGER_RTT_printf(0, "adv_complete status: %d\r\n", status);
 
     if (status == GAP_ERR_CANCELED)
     {
-        SEGGER_RTT_WriteString(0, "Restarting adv...\r\n");
         user_app_adv_start();
     }
     else
     {
-        SEGGER_RTT_printf(0, "Stopping adv, status=%d\r\n", status);
         if (accel_check_timer == EASY_TIMER_INVALID_TIMER)
         {
             accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
@@ -180,19 +184,26 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
         app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
     }
 
-    SEGGER_RTT_WriteString(0, "Disconnected! Restarting advertising...\r\n");
     user_app_adv_start();
 }
 
 void user_update_manufacturer_data(uint8_t *serial)
 {
+    // g_manufacturer_data 업데이트
     memcpy(&g_manufacturer_data[2], serial, 8);
 
-    // 이름(7) + UUID AD(4) + 길이(1) + 타입(1) = 13
+    // NVDS에 영구 저장
+    if (nvds_put(NVDS_TAG_DEVICE_SERIAL, NVDS_SERIAL_LEN, serial) == NVDS_OK)
+    {
+    }
+    else
+    {
+        uint8_t result = nvds_put(NVDS_TAG_DEVICE_SERIAL, NVDS_SERIAL_LEN, serial);
+    }
+
+    // 광고 데이터 업데이트
     memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
     stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
-
-    SEGGER_RTT_printf(0, "Serial updated: %.8s\r\n", serial);
 }
 
 static void accel_check_timer_cb(void)
@@ -207,7 +218,6 @@ static void accel_check_timer_cb(void)
 
     if (lis3dh_motion_detected(ACCEL_MOTION_THRESHOLD))
     {
-        SEGGER_RTT_WriteString(0, "Motion detected!\r\n");
         user_app_adv_start();
     }
     else
@@ -218,7 +228,6 @@ static void accel_check_timer_cb(void)
 
 arch_main_loop_callback_ret_t user_on_ble_powered(void)
 {
-    SEGGER_RTT_WriteString(0, "BLE powered on!\r\n");
     if (!timer_started)
     {
         accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
@@ -226,10 +235,8 @@ arch_main_loop_callback_ret_t user_on_ble_powered(void)
     }
     return GOTO_SLEEP;
 }
-
 arch_main_loop_callback_ret_t user_on_system_powered(void)
 {
-    SEGGER_RTT_WriteString(0, "System powered on!\r\n");
      if (!timer_started)
     {
         accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
@@ -237,12 +244,10 @@ arch_main_loop_callback_ret_t user_on_system_powered(void)
     }
     return GOTO_SLEEP;
 }
-
 sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode)
 {
     return mode_active;
 }
-
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           void const *param,
                           ke_task_id_t const dest_id,

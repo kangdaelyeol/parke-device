@@ -2,4 +2,4 @@ ldscript_DA14531.lds
 .history
 .vscode
 build
-asdd
+ble_app_peripheral/Keil_5/out_*

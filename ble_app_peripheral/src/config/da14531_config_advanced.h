@@ -93,7 +93,7 @@
 /* Custom heap sizes                                                                                            */
 /****************************************************************************************************************/
 #define DB_HEAP_SZ              512
-// #define ENV_HEAP_SZ             328
+#define ENV_HEAP_SZ             328
 #define MSG_HEAP_SZ             1024
 #define NON_RET_HEAP_SZ         512
 
@@ -196,7 +196,7 @@
 /* Maximum retention memory in bytes. The base address of the retention data is calculated from the selected    */
 /* size.                                                                                                        */
 /****************************************************************************************************************/
-#define CFG_RET_DATA_SIZE (2048)  // 160바이트 추가
+#define CFG_RET_DATA_SIZE (2048)
 
 /****************************************************************************************************************/
 /* Maximum uninitialized retained data required by the application.                                             */
