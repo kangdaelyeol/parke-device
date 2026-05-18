@@ -149,7 +149,6 @@ void user_update_manufacturer_data(uint8_t *serial);
 
 /// @} APP
 
-arch_main_loop_callback_ret_t user_on_ble_powered(void);
 arch_main_loop_callback_ret_t user_on_system_powered(void);
 sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode);
 #endif // _USER_PERIPHERAL_H_

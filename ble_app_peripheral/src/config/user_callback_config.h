@@ -111,14 +111,15 @@ static const struct app_bond_db_callbacks user_app_bond_db_callbacks = {
 
 #define app_process_catch_rest_cb       user_catch_rest_hndl
 
-static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
+static const struct arch_main
+\_loop_callbacks user_app_main_loop_callbacks = {
     .app_on_init            = user_app_init,
 
     // By default the watchdog timer is reloaded and resumed when the system wakes up.
     // The user has to take into account the watchdog timer handling (keep it running,
     // freeze it, reload it, resume it, etc), when the app_on_ble_powered() is being
     // called and may potentially affect the main loop.
-    .app_on_ble_powered     = user_on_ble_powered,
+    .app_on_ble_powered     = NULL,
 
     // By default the watchdog timer is reloaded and resumed when the system wakes up.
     // The user has to take into account the watchdog timer handling (keep it running,

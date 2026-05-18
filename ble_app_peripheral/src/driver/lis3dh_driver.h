@@ -1,6 +1,6 @@
-#ifndef _LIS3DH_H_
-#define _LIS3DH_H_
-
+// lis3dh_driver.h
+#ifndef _LIS3DH_DRIVER_H_
+#define _LIS3DH_DRIVER_H_
 #include <stdint.h>
 
 /*
@@ -21,14 +21,11 @@
 
 #define LIS3DH_AUTO_INCREMENT   0x80    // Set MSB to auto-increment register address
 
-/*
- * Function Prototypes
- ****************************************************************************************
- */
+
+int lis3dh_detect(void);
 
 void lis3dh_init(void);
-void lis3dh_read_xyz(int16_t *x, int16_t *y, int16_t *z);
-int lis3dh_detect(void);
-int lis3dh_motion_detected(int16_t threshold);
 
-#endif // _LIS3DH_H_
+uint8_t* lis3dh_get_xyz_buffer(void);
+
+#endif // _LIS3DH_DRIVER_H_

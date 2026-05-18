@@ -1,14 +1,6 @@
-/**
- ****************************************************************************************
- * @file lis3dh.c
- * @brief LIS3DHTR Accelerometer Driver
- ****************************************************************************************
- */
-
-#include "lis3dh.h"
 #include "i2c.h"
-
-
+#include "lis3dh.h"
+#include "lis3dh_driver.h"
 static int16_t lis3dh_prev_x __SECTION_ZERO("retention_mem_area0");
 static int16_t lis3dh_prev_y __SECTION_ZERO("retention_mem_area0");
 static int16_t lis3dh_prev_z __SECTION_ZERO("retention_mem_area0");
@@ -66,38 +58,9 @@ void lis3dh_init(void)
     lis3dh_write_reg(LIS3DH_CTRL_REG4, 0x00);
 }
 
-void lis3dh_read_xyz(int16_t *x, int16_t *y, int16_t *z)
-{
-    uint8_t buf[6];
+uint8_t* lis3dh_get_xyz_buffer(void) {
+    static uint8_t buf[6];
     lis3dh_read_multi(LIS3DH_OUT_X_L, buf, 6);
 
-    *x = (int16_t)((buf[1] << 8) | buf[0]) >> 6;
-    *y = (int16_t)((buf[3] << 8) | buf[2]) >> 6;
-    *z = (int16_t)((buf[5] << 8) | buf[4]) >> 6;
-}
-
-// 이전 값과 비교해서 움직임 감지
-// threshold: 감지 민감도 (예: 20 = 약한 움직임, 50 = 강한 움직임)
-// 반환값: 1=움직임 감지, 0=정지
-int lis3dh_motion_detected(int16_t threshold)
-{
-    // static 변수 제거하고 전역 변수 사용
-    int16_t x, y, z;
-    int16_t dx, dy, dz;
-
-    lis3dh_read_xyz(&x, &y, &z);
-
-    dx = x - lis3dh_prev_x;
-    dy = y - lis3dh_prev_y;
-    dz = z - lis3dh_prev_z;
-
-    if (dx < 0) dx = -dx;
-    if (dy < 0) dy = -dy;
-    if (dz < 0) dz = -dz;
-
-    lis3dh_prev_x = x;
-    lis3dh_prev_y = y;
-    lis3dh_prev_z = z;
-
-    return (dx > threshold || dy > threshold || dz > threshold) ? 1 : 0;
+    return buf;
 }

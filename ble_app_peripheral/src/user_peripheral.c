@@ -9,8 +9,6 @@
 #include "user_custs1_def.h"
 #include "gpio.h"
 #include "i2c.h"
-// #include "syscntl.h"
-// #include "co_bt.h"
 #include "lis3dh.h"
 
 /*
@@ -88,19 +86,11 @@ void user_app_init(void)
     stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
     memcpy(stored_scan_rsp_data, USER_ADVERTISE_SCAN_RESPONSE_DATA, USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN);
     stored_scan_rsp_data_len = USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN;
-
-    default_app_on_init();
-
-
+    
     // 광고 데이터에 manufacturer data 반영
     memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
 
     default_app_on_init();
-
-    if (lis3dh_detect())
-    {
-        lis3dh_init();
-    }
 }
 
 void user_app_adv_start(void)
@@ -226,15 +216,6 @@ static void accel_check_timer_cb(void)
     }
 }
 
-arch_main_loop_callback_ret_t user_on_ble_powered(void)
-{
-    if (!timer_started)
-    {
-        accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
-        timer_started = true;
-    }
-    return GOTO_SLEEP;
-}
 arch_main_loop_callback_ret_t user_on_system_powered(void)
 {
      if (!timer_started)
@@ -244,6 +225,7 @@ arch_main_loop_callback_ret_t user_on_system_powered(void)
     }
     return GOTO_SLEEP;
 }
+
 sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode)
 {
     return mode_active;
