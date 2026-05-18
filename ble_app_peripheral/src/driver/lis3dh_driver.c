@@ -58,7 +58,7 @@ void lis3dh_init(void)
     lis3dh_write_reg(LIS3DH_CTRL_REG4, 0x00);
 }
 
-uint8_t* lis3dh_get_xyz_buffer(void) {
+const uint8_t* lis3dh_get_xyz_buffer(void) {
     static uint8_t buf[6];
     lis3dh_read_multi(LIS3DH_OUT_X_L, buf, 6);
 

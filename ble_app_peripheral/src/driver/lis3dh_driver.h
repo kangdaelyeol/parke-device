@@ -26,6 +26,6 @@ int lis3dh_detect(void);
 
 void lis3dh_init(void);
 
-uint8_t* lis3dh_get_xyz_buffer(void);
+const uint8_t* lis3dh_get_xyz_buffer(void);
 
 #endif // _LIS3DH_DRIVER_H_

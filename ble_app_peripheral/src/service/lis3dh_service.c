@@ -9,11 +9,7 @@
  ****************************************************************************************
  */
 
-// Defines
-#ifndef ACCEL_MOTION_THRESHOLD
-#define ACCEL_MOTION_THRESHOLD  20    // 움직임 감지 임계값
 
-#endif
 
 // Local variables
 static int16_t lis3dh_prev_x __SECTION_ZERO("retention_mem_area0");
