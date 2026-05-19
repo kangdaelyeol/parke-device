@@ -8,14 +8,9 @@
 #include "user_custs1_impl.h"
 #include "user_custs1_def.h"
 #include "gpio.h"
-#include "i2c.h"
-#include "lis3dh.h"
-
-/*
- * DEFINES
- ****************************************************************************************
- */
-#define ACCEL_CHECK_INTERVAL    100   // 1초 (단위: 10ms)
+#include "power_service.h"
+#include "adv_service.h"
+#include "mnf_service.h"
 
 /*
  * GLOBAL VARIABLES
@@ -24,23 +19,18 @@
 uint8_t app_connection_idx                      __SECTION_ZERO("retention_mem_area0");
 timer_hnd app_adv_data_update_timer_used        __SECTION_ZERO("retention_mem_area0");
 timer_hnd app_param_update_request_timer_used   __SECTION_ZERO("retention_mem_area0");
-timer_hnd accel_check_timer                     __SECTION_ZERO("retention_mem_area0");
-uint8_t is_advertising                          __SECTION_ZERO("retention_mem_area0");
-uint8_t stored_adv_data_len                     __SECTION_ZERO("retention_mem_area0");
-uint8_t stored_scan_rsp_data_len                __SECTION_ZERO("retention_mem_area0");
-uint8_t stored_adv_data[ADV_DATA_LEN]           __SECTION_ZERO("retention_mem_area0");
-uint8_t stored_scan_rsp_data[SCAN_RSP_DATA_LEN] __SECTION_ZERO("retention_mem_area0");
-static bool timer_started                       __SECTION_ZERO("retention_mem_area0");
 
 
 /*
- * FORWARD DECLARATIONS
+ * Static functions
  ****************************************************************************************
  */
 
-
-static void accel_check_timer_cb(void);
-static void param_update_request_timer_cb(void);
+static void param_update_request_timer_cb(void)
+{
+    app_easy_gap_param_update_start(app_connection_idx);
+    app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
+}
 
 /*
  * FUNCTION DEFINITIONS
@@ -50,72 +40,23 @@ static void param_update_request_timer_cb(void);
 void user_app_init(void)
 {
     app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
-    accel_check_timer = EASY_TIMER_INVALID_TIMER;
-    is_advertising = 0;
-    timer_started = false;  
+    power_svc_init();
+    adv_svc_init();
+    mnf_svc_init();
 
-    // NVDS에서 식별자 읽기
-    uint8_t len = NVDS_SERIAL_LEN;
-    uint8_t serial[NVDS_SERIAL_LEN];
-
-    if (nvds_get(NVDS_TAG_DEVICE_SERIAL, &len, serial) == NVDS_OK)
-    {
-        // 저장된 식별자 있음 → 로드
-        memcpy(&g_manufacturer_data[2], serial, NVDS_SERIAL_LEN);
+    if(mnf_svc_is_mnf_initialized()){
+        power_svc_start_sleep_wakeup_cycle();
+    } else {
+        adv_svc_start_undirected_adv();
     }
-    else
-    {
-        // 저장된 식별자 없음 → UNSET000 유지
-    }
-
-    // 광고 데이터 초기화
-    memcpy(stored_adv_data, USER_ADVERTISE_DATA, USER_ADVERTISE_DATA_LEN);
-    stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
-    memcpy(stored_scan_rsp_data, USER_ADVERTISE_SCAN_RESPONSE_DATA, USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN);
-    stored_scan_rsp_data_len = USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN;
-
-    // 광고 데이터에 manufacturer data 반영
-    memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
-
     default_app_on_init();
 }
-
-void user_app_adv_start(void)
-{
-    struct gapm_start_advertise_cmd* cmd;
-    cmd = app_easy_gap_undirected_advertise_get_active();
-
-    
-    if (cmd == NULL)
-    {
-        return;
-    }
-    // SDK가 자동으로 이름 등을 추가한 후
-    // 우리 광고 데이터를 추가
-    // 기존 데이터 무시하고 우리 데이터로 완전히 덮어쓰기
-    memcpy(cmd->info.host.adv_data, stored_adv_data, stored_adv_data_len);
-    cmd->info.host.adv_data_len = stored_adv_data_len;
-
-    // scan response도 설정
-    memcpy(cmd->info.host.scan_rsp_data, stored_scan_rsp_data, stored_scan_rsp_data_len);
-    cmd->info.host.scan_rsp_data_len = stored_scan_rsp_data_len;
-
-    is_advertising = 1;
-
-    if (accel_check_timer == EASY_TIMER_INVALID_TIMER)
-    {
-        accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
-    }
-}
-
-
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
 {
     if (app_env[connection_idx].conidx != GAP_INVALID_CONIDX)
     {
         app_connection_idx = connection_idx;
-        is_advertising = 0;
 
         if ((param->con_interval < user_connection_param_conf.intv_min) ||
             (param->con_interval > user_connection_param_conf.intv_max) ||
@@ -124,29 +65,11 @@ void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind 
         {
             app_param_update_request_timer_used = app_easy_timer(APP_PARAM_UPDATE_REQUEST_TO, param_update_request_timer_cb);
         }
+        default_app_on_connection(connection_idx, param);
+    } else {
+        adv_svc_start_undirected_adv();
     }
-    else
-    {
-        user_app_adv_start();
-    }
-    default_app_on_connection(connection_idx, param);
-}
 
-void user_app_adv_undirect_complete(uint8_t status)
-{
-    is_advertising = 0;
-
-    if (status == GAP_ERR_CANCELED)
-    {
-        user_app_adv_start();
-    }
-    else
-    {
-        if (accel_check_timer == EASY_TIMER_INVALID_TIMER)
-        {
-            accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
-        }
-    }
 }
 
 void user_app_disconnect(struct gapc_disconnect_ind const *param)
@@ -156,63 +79,17 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
         app_easy_timer_cancel(app_param_update_request_timer_used);
         app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
     }
+    power_svc_init();
+    adv_svc_init();
+    mnf_svc_init();
 
-    user_app_adv_start();
-}
-
-void user_update_manufacturer_data(uint8_t *serial)
-{
-    // g_manufacturer_data 업데이트
-    memcpy(&g_manufacturer_data[2], serial, 8);
-
-    // NVDS에 영구 저장
-    if (nvds_put(NVDS_TAG_DEVICE_SERIAL, NVDS_SERIAL_LEN, serial) == NVDS_OK)
-    {
-    }
-    else
-    {
-        uint8_t result = nvds_put(NVDS_TAG_DEVICE_SERIAL, NVDS_SERIAL_LEN, serial);
-    }
-
-    // 광고 데이터 업데이트
-    memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
-    stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
-}
-
-static void accel_check_timer_cb(void)
-{
-    accel_check_timer = EASY_TIMER_INVALID_TIMER;
-
-    if (is_advertising)
-    {
-        accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
-        return;
-    }
-
-    if (lis3dh_motion_detected(ACCEL_MOTION_THRESHOLD))
-    {
-        user_app_adv_start();
-    }
-    else
-    {
-        accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
+    if(mnf_svc_is_mnf_initialized()){
+        power_svc_start_sleep_wakeup_cycle();
+    } else {
+        adv_svc_start_undirected_adv();
     }
 }
 
-arch_main_loop_callback_ret_t user_on_system_powered(void)
-{
-     if (!timer_started)
-    {
-        accel_check_timer = app_easy_timer(ACCEL_CHECK_INTERVAL, accel_check_timer_cb);
-        timer_started = true;
-    }
-    return GOTO_SLEEP;
-}
-
-sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode)
-{
-    return mode_sleeping;
-}
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           void const *param,
                           ke_task_id_t const dest_id,
@@ -246,10 +123,4 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
         default:
             break;
     }
-}
-
-static void param_update_request_timer_cb(void)
-{
-    app_easy_gap_param_update_start(app_connection_idx);
-    app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
 }

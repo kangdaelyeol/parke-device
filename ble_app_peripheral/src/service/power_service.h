@@ -10,6 +10,5 @@
 void power_svc_init(void);
 void power_svc_start_sleep_wakeup_cycle(void);
 void power_svc_go_to_sleep(void);
-void power_svc_go_to_wakeup(void);
 
 #endif // _POWER_SERVICE_H_

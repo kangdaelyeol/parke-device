@@ -116,11 +116,12 @@ void user_app_connection(uint8_t connection_idx,
 
 /**
  ****************************************************************************************
- * @brief Undirect advertising completion function.
+ * @brief Undirect / Nonconn advertising completion function.
  * @param[in] status Command complete event message status
  ****************************************************************************************
 */
-void user_app_adv_undirect_complete(uint8_t status);
+    void user_app_adv_undirect_complete(uint8_t status);
+    void user_app_adv_nonconn_complete(uint8_t status);
 
 /**
  ****************************************************************************************
@@ -144,11 +145,9 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           ke_task_id_t const dest_id,
                           ke_task_id_t const src_id);
 
-void user_update_manufacturer_data(uint8_t *serial);
 
 
 /// @} APP
 
-arch_main_loop_callback_ret_t user_on_system_powered(void);
 sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode);
 #endif // _USER_PERIPHERAL_H_

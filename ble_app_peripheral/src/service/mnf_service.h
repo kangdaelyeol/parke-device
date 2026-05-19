@@ -8,5 +8,6 @@ const uint8_t* mnf_svc_get_mnf_data(void);
 void mnf_svc_update_device_id(uint8_t *device_id);
 void mnf_svc_update_battery_level(void);
 void mnf_svc_init(void);
+int mnf_svc_is_mnf_initialized(void);
 
 #endif // _MNF_SERVICE_H_

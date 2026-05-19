@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "app_easy_timer.h"
 #include "adv_service.h"
+#include "power_service.h"
 
 /**
  ****************************************************************************************
@@ -35,7 +36,7 @@ static void lis3dh_read_xyz(lis3dh_xyz *result)
 
 
 // static Public functions
-static int lis3dh_motion_detected(void)
+static int motion_detected(void)
 {
     // static 변수 제거하고 전역 변수 사용
     int16_t x, y, z;
@@ -62,18 +63,26 @@ static int lis3dh_motion_detected(void)
     return (dx > ACCEL_MOTION_THRESHOLD || dy > ACCEL_MOTION_THRESHOLD || dz > ACCEL_MOTION_THRESHOLD) ? 1 : 0;
 }
 
+static void on_finish_advertising(void)
+{
+    adv_svc_stop_adv();
+    adv_svc_go_to_sleep();
+}
+
 static void on_accelerometer_scan(void);
 
 static void on_accelerometer_scan(void)
 {
     accelerometer_scan_hnd = EASY_TIMER_INVALID_TIMER;
 
-    if (lis3dh_motion_detected())
+    if (motion_detected())
     {
         // 움직임 감지 → 광고 시작
         lis3dh_svc_stop_scan();
     
-        adv_svc_start_undirected_adv();
+        power_svc_stop_cycle();
+        adv_svc_start_adv();
+        app_easy_timer(ADV_DURATION, on_finish_advertising); // 2초 후에 다시 체크
     }
     else {
         accelerometer_scan_hnd = app_easy_timer(ACCEL_CHECK_INTERVAL, on_accelerometer_scan);

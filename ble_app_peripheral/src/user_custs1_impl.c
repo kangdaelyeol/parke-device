@@ -8,6 +8,9 @@
 #include "user_custs1_impl.h"
 #include "user_peripheral.h"
 #include "user_periph_setup.h"
+#include "mnf_service.h"
+#include "adv_service.h"
+
 #if defined (CFG_PRINTF_UART2)
 #include "uart.h"
 #include "uart_utils.h"
@@ -20,12 +23,9 @@ void user_svc1_serial_wr_ind_handler(ke_msg_id_t const msgid,
 {
     if (param->length != 8) return;
 
-    // 받은 8바이트 serial 저장
-    char serial[9] = {0};
-    memcpy(serial, param->value, 8);
-
     // 광고 데이터 업데이트
-    user_update_manufacturer_data((uint8_t*)serial);
+    mnf_svc_update_device_id((uint8_t*)param->value);
+    app_easy_gap_disconnect(app_env[param->conidx].conidx);
 }
 
 void user_svc1_rest_att_info_req_handler(ke_msg_id_t const msgid,
