@@ -36,6 +36,7 @@ void mnf_dv_update_device_id(uint8_t *device_id)
 {
     // g_manufacturer_data의 device ID 부분 업데이트
     memcpy(&manufacturer_data[MNF_COMPANY_LEN], device_id, MNF_DEVICE_ID_LEN);
+    nvds_put(NVDS_TAG_DEVICE_SERIAL, NVDS_SERIAL_LEN, device_id);
 }
 
 

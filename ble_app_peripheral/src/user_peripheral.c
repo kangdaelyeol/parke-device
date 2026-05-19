@@ -16,11 +16,6 @@
  ****************************************************************************************
  */
 #define ACCEL_CHECK_INTERVAL    100   // 1초 (단위: 10ms)
-#define ACCEL_MOTION_THRESHOLD  10    // 움직임 감지 임계값
-
-// NVDS TAG 정의 (사용자 정의 TAG)
-#define NVDS_TAG_DEVICE_SERIAL    ((uint8_t)0x80)
-#define NVDS_SERIAL_LEN           8
 
 /*
  * GLOBAL VARIABLES
@@ -37,14 +32,6 @@ uint8_t stored_adv_data[ADV_DATA_LEN]           __SECTION_ZERO("retention_mem_ar
 uint8_t stored_scan_rsp_data[SCAN_RSP_DATA_LEN] __SECTION_ZERO("retention_mem_area0");
 static bool timer_started                       __SECTION_ZERO("retention_mem_area0");
 
-
-
-// Manufacturer data buffer
-static uint8_t g_manufacturer_data[11] = {
-    0xFF, 0xFF,                           // Company ID
-    'U','N','S','E','T','0','0','0',      // Device ID (초기값)
-    0x00                                  // Battery Level
-};
 
 /*
  * FORWARD DECLARATIONS
@@ -86,7 +73,7 @@ void user_app_init(void)
     stored_adv_data_len = USER_ADVERTISE_DATA_LEN;
     memcpy(stored_scan_rsp_data, USER_ADVERTISE_SCAN_RESPONSE_DATA, USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN);
     stored_scan_rsp_data_len = USER_ADVERTISE_SCAN_RESPONSE_DATA_LEN;
-    
+
     // 광고 데이터에 manufacturer data 반영
     memcpy(&stored_adv_data[13], g_manufacturer_data, 11);
 
@@ -113,10 +100,6 @@ void user_app_adv_start(void)
     memcpy(cmd->info.host.scan_rsp_data, stored_scan_rsp_data, stored_scan_rsp_data_len);
     cmd->info.host.scan_rsp_data_len = stored_scan_rsp_data_len;
 
-
-    
-
-    app_easy_gap_undirected_advertise_start();
     is_advertising = 1;
 
     if (accel_check_timer == EASY_TIMER_INVALID_TIMER)
@@ -228,7 +211,7 @@ arch_main_loop_callback_ret_t user_on_system_powered(void)
 
 sleep_mode_t user_app_validate_sleep(sleep_mode_t sleep_mode)
 {
-    return mode_active;
+    return mode_sleeping;
 }
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
                           void const *param,

@@ -15,11 +15,11 @@ void mnf_svc_update_device_id(uint8_t *device_id)
 
 void mnf_svc_update_battery_level(void)
 {
-    uint8_t battery_level = battery_get_lvl(BATT_CR2032);
+    uint8_t battery_level = battery_get_lvl(BATT_ALKALINE);
     mnf_dv_update_battery_level(battery_level);
 }
 
 void mnf_svc_init(void)
-{
+{ 
     mnf_dv_init_mnf_data();
 }

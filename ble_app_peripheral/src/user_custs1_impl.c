@@ -24,10 +24,6 @@ void user_svc1_serial_wr_ind_handler(ke_msg_id_t const msgid,
     char serial[9] = {0};
     memcpy(serial, param->value, 8);
 
-    printf_string(UART2, "Serial received: ");
-    printf_string(UART2, serial);
-    printf_string(UART2, "\r\n");
-
     // 광고 데이터 업데이트
     user_update_manufacturer_data((uint8_t*)serial);
 }
