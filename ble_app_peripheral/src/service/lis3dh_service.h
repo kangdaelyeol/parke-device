@@ -6,6 +6,8 @@
 #ifndef ACCEL_MOTION_THRESHOLD
 #define ACCEL_MOTION_THRESHOLD  20    // 움직임 감지 임계값
 
+#define ACCEL_CHECK_INTERVAL 100   // 가속도 체크 간격 (단위: 10ms)
+
 #endif
 
 #include <stdint.h>
@@ -16,8 +18,9 @@ typedef struct{
     int16_t z;
 } lis3dh_xyz;
 
-int lis3dh_motion_detected(void);
 
-void lis3dh_service_init(void);
+void lis3dh_svc_init(void);
+void lis3dh_svc_start_scan(void);
+void lis3dh_svc_stop_scan(void);
 
 #endif // _LIS3DH_SERVICE_H_

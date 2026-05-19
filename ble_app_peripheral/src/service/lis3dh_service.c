@@ -1,6 +1,8 @@
 #include "lis3dh_driver.h"
 #include "lis3dh_service.h"
 #include <stdint.h>
+#include "app_easy_timer.h"
+#include "adv_service.h"
 
 /**
  ****************************************************************************************
@@ -16,6 +18,7 @@ static int16_t lis3dh_prev_x __SECTION_ZERO("retention_mem_area0");
 static int16_t lis3dh_prev_y __SECTION_ZERO("retention_mem_area0");
 static int16_t lis3dh_prev_z __SECTION_ZERO("retention_mem_area0");
 
+timer_hnd accelerometer_scan_hnd __SECTION_ZERO("retention_mem_area0");
 
 // Helper functions
 
@@ -31,8 +34,8 @@ static void lis3dh_read_xyz(lis3dh_xyz *result)
 
 
 
-// Public functions
-int lis3dh_motion_detected(void)
+// static Public functions
+static int lis3dh_motion_detected(void)
 {
     // static 변수 제거하고 전역 변수 사용
     int16_t x, y, z;
@@ -59,9 +62,42 @@ int lis3dh_motion_detected(void)
     return (dx > ACCEL_MOTION_THRESHOLD || dy > ACCEL_MOTION_THRESHOLD || dz > ACCEL_MOTION_THRESHOLD) ? 1 : 0;
 }
 
-void lis3dh_service_init(void) {
+static void on_accelerometer_scan(void);
+
+static void on_accelerometer_scan(void)
+{
+    accelerometer_scan_hnd = EASY_TIMER_INVALID_TIMER;
+
+    if (lis3dh_motion_detected())
+    {
+        // 움직임 감지 → 광고 시작
+        lis3dh_svc_stop_scan();
+    
+        adv_svc_start_undirected_adv();
+    }
+    else {
+        accelerometer_scan_hnd = app_easy_timer(ACCEL_CHECK_INTERVAL, on_accelerometer_scan);
+    }
+}
+
+void lis3dh_svc_init(void) {
     if (lis3dh_detect())
     {
         lis3dh_init();
+    }
+}
+
+void lis3dh_svc_start_scan(void) {
+    if (accelerometer_scan_hnd != EASY_TIMER_INVALID_TIMER) {
+        app_easy_timer_cancel(accelerometer_scan_hnd);
+    }
+    accelerometer_scan_hnd = app_easy_timer(ACCEL_CHECK_INTERVAL, on_accelerometer_scan);
+}
+
+
+void lis3dh_svc_stop_scan(void) {
+    if (accelerometer_scan_hnd != EASY_TIMER_INVALID_TIMER) {
+        app_easy_timer_cancel(accelerometer_scan_hnd);
+        accelerometer_scan_hnd = EASY_TIMER_INVALID_TIMER;
     }
 }

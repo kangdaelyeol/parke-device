@@ -4,6 +4,7 @@
 #include "app_easy_timer.h"
 #include "power_service.h"
 #include "user_peripheral.h"
+#include "arch_api.h" 
 
 timer_hnd sleep_mode_timer __SECTION_ZERO("retention_mem_area0");
 timer_hnd wakeup_mode_timer __SECTION_ZERO("retention_mem_area0");
@@ -64,6 +65,20 @@ void power_svc_go_to_sleep(void)
         wakeup_mode_timer = EASY_TIMER_INVALID_TIMER;
     }
     on_sleep();
+}
+
+void power_svc_go_to_wakeup(void)
+{
+    if (sleep_mode_timer != EASY_TIMER_INVALID_TIMER)
+    {
+        app_easy_timer_cancel(sleep_mode_timer);
+        sleep_mode_timer = EASY_TIMER_INVALID_TIMER;
+    }
+    if(wakeup_mode_timer != EASY_TIMER_INVALID_TIMER){
+        app_easy_timer_cancel(wakeup_mode_timer);
+        wakeup_mode_timer = EASY_TIMER_INVALID_TIMER;
+    }
+    on_wakeup();
 }
 
 
