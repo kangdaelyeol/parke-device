@@ -35,7 +35,7 @@ void adv_svc_start_undirected_adv(void) {
         return;
     }
 
-    uint8_t* mnf = mnf_svc_get_mnf_data();
+    const uint8_t* mnf = mnf_svc_get_mnf_data();
 
     mnf_svc_update_battery_level();
 
@@ -56,7 +56,7 @@ void adv_svc_start_non_conn_adv(void) {
         return;
     }
 
-    uint8_t* mnf = mnf_svc_get_mnf_data();
+    const uint8_t* mnf = mnf_svc_get_mnf_data();
 
     memcpy(&cmd->info.host.adv_data[13], mnf, 11);
     cmd->info.host.adv_data_len = USER_ADVERTISE_DATA_LEN;

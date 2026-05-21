@@ -26,7 +26,7 @@ timer_hnd accelerometer_scan_hnd __SECTION_ZERO("retention_mem_area0");
 static void lis3dh_read_xyz(lis3dh_xyz *result)
 {
     uint8_t buf[6];
-    lis3dh_read_multi(LIS3DH_OUT_X_L, buf, 6);
+    lis3dh_driver_read_multi(LIS3DH_OUT_X_L, buf, 6);
 
     result->x = (int16_t)((buf[1] << 8) | buf[0]) >> 6;
     result->y = (int16_t)((buf[3] << 8) | buf[2]) >> 6;
@@ -35,7 +35,7 @@ static void lis3dh_read_xyz(lis3dh_xyz *result)
 
 
 
-// static Public functions
+// static functions
 static int motion_detected(void)
 {
     // static 변수 제거하고 전역 변수 사용
@@ -66,7 +66,7 @@ static int motion_detected(void)
 static void on_finish_advertising(void)
 {
     adv_svc_stop_adv();
-    adv_svc_go_to_sleep();
+    power_svc_go_to_sleep();
 }
 
 static void on_accelerometer_scan(void);
@@ -81,7 +81,7 @@ static void on_accelerometer_scan(void)
         lis3dh_svc_stop_scan();
     
         power_svc_stop_cycle();
-        adv_svc_start_adv();
+        adv_svc_start_non_conn_adv();
         app_easy_timer(ADV_DURATION, on_finish_advertising); // 2초 후에 다시 체크
     }
     else {

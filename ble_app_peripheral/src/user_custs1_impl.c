@@ -10,6 +10,7 @@
 #include "user_periph_setup.h"
 #include "mnf_service.h"
 #include "adv_service.h"
+#include "lis3dh_driver.h"
 
 #if defined (CFG_PRINTF_UART2)
 #include "uart.h"

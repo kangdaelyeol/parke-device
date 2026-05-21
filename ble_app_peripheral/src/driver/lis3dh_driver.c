@@ -1,5 +1,4 @@
 #include "i2c.h"
-#include "lis3dh.h"
 #include "lis3dh_driver.h"
 static int16_t lis3dh_prev_x __SECTION_ZERO("retention_mem_area0");
 static int16_t lis3dh_prev_y __SECTION_ZERO("retention_mem_area0");
@@ -31,13 +30,7 @@ static uint8_t lis3dh_read_reg(uint8_t reg)
     return value;
 }
 
-static void lis3dh_read_multi(uint8_t reg, uint8_t *buf, uint16_t len)
-{
-    uint8_t reg_addr = reg | LIS3DH_AUTO_INCREMENT;
-    i2c_master_transmit_buffer_sync(&reg_addr, 1, NULL, I2C_F_NONE);
-    i2c_master_receive_buffer_sync(buf, len, NULL, I2C_F_ADD_STOP);
-    i2c_wait_until_ready();
-}
+
 
 /*
  * Public Functions
@@ -58,9 +51,10 @@ void lis3dh_init(void)
     lis3dh_write_reg(LIS3DH_CTRL_REG4, 0x00);
 }
 
-const uint8_t* lis3dh_get_xyz_buffer(void) {
-    static uint8_t buf[6];
-    lis3dh_read_multi(LIS3DH_OUT_X_L, buf, 6);
-
-    return buf;
+void lis3dh_driver_read_multi(uint8_t reg, uint8_t *buf, uint16_t len)
+{
+    uint8_t reg_addr = reg | LIS3DH_AUTO_INCREMENT;
+    i2c_master_transmit_buffer_sync(&reg_addr, 1, NULL, I2C_F_NONE);
+    i2c_master_receive_buffer_sync(buf, len, NULL, I2C_F_ADD_STOP);
+    i2c_wait_until_ready();
 }

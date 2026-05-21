@@ -43,13 +43,15 @@ void user_app_init(void)
     power_svc_init();
     adv_svc_init();
     mnf_svc_init();
+    default_app_on_init();
+}
 
+void user_app_adv_start(void) {
     if(mnf_svc_is_mnf_initialized()){
         power_svc_start_sleep_wakeup_cycle();
     } else {
         adv_svc_start_undirected_adv();
     }
-    default_app_on_init();
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)

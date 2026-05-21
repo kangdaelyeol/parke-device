@@ -111,8 +111,7 @@ static const struct app_bond_db_callbacks user_app_bond_db_callbacks = {
 
 #define app_process_catch_rest_cb       user_catch_rest_hndl
 
-static const struct arch_main
-\_loop_callbacks user_app_main_loop_callbacks = {
+static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
     .app_on_init            = user_app_init,
 
     // By default the watchdog timer is reloaded and resumed when the system wakes up.
