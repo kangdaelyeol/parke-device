@@ -63,7 +63,7 @@ static const struct app_callbacks user_app_callbacks = {
     .app_on_adv_nonconn_complete        = user_app_adv_nonconn_complete,
     .app_on_adv_undirect_complete       = user_app_adv_undirect_complete,
     .app_on_adv_direct_complete         = NULL,
-    .app_on_db_init_complete            = default_app_on_db_init_complete,
+    .app_on_db_init_complete            = user_app_adv_start,
     .app_on_scanning_completed          = NULL,
     .app_on_adv_report_ind              = NULL,
     .app_on_get_dev_name                = default_app_on_get_dev_name,
@@ -134,7 +134,7 @@ static const struct arch_main_loop_callbacks user_app_main_loop_callbacks = {
 
 // Default Handler Operations
 static const struct default_app_operations user_default_app_operations = {
-    .default_operation_adv = user_app_adv_start,
+    .default_operation_adv = NULL,
 };
 
 // Place in this structure the app_<profile>_db_create and app_<profile>_enable functions

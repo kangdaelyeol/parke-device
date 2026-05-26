@@ -169,6 +169,7 @@ static const struct advertise_configuration user_adv_conf = {
  *      not include them in the advertising data. The related ROM function adds 3 bytes in
  *      the start of the advertising data that are to be transmitted over the air.
  *    - The maximum length of the user defined response data shall be 31 bytes.
+ * 
  *
  * - ADV_NONCONN_IND: Non-connectable undirected advertising event.
  *    - The maximum length of the user defined advertising data shall be 31 bytes.
@@ -184,17 +185,18 @@ static const struct advertise_configuration user_adv_conf = {
  ****************************************************************************************
  */
  
-#define USER_ADVERTISE_DATA         ("\x06"\
-                                    ADV_TYPE_COMPLETE_LOCAL_NAME\
-                                    "Parke"\
-                                    "\x03"\
+#define USER_ADVERTISE_DATA         ("\x03"\
                                     ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS\
                                     "\x00\xFF"\
                                     "\x0C"\
                                     ADV_TYPE_MANUFACTURER_SPECIFIC_DATA\
                                     "\xFF\xFF"\
                                     "UNSET000"\
-                                    "\x00")
+                                    "\x00"\
+                                    "\x06"\
+                                    ADV_TYPE_COMPLETE_LOCAL_NAME\
+                                    "Parke"\
+                                )
 
 #define USER_ADVERTISE_DATA_LEN     (sizeof(USER_ADVERTISE_DATA)-1)
 

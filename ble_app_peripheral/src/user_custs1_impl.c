@@ -25,8 +25,12 @@ void user_svc1_serial_wr_ind_handler(ke_msg_id_t const msgid,
     if (param->length != 8) return;
 
     // 광고 데이터 업데이트
-    mnf_svc_update_device_id((uint8_t*)param->value);
-    app_easy_gap_disconnect(app_env[param->conidx].conidx);
+    uint8_t device_id[8];
+    memcpy(device_id, param->value, 8);
+
+    mnf_svc_update_device_id(device_id);
+    adv_mode = ADV_INIT_COMPLETED;
+    // app_easy_gap_disconnect(app_env[param->conidx].conidx);
 }
 
 void user_svc1_rest_att_info_req_handler(ke_msg_id_t const msgid,

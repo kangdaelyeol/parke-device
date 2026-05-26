@@ -48,10 +48,11 @@ void user_app_init(void)
 
 void user_app_adv_start(void) {
     if(mnf_svc_is_mnf_initialized()){
-        power_svc_start_sleep_wakeup_cycle();
+        adv_svc_start_non_conn_adv();
     } else {
         adv_svc_start_undirected_adv();
-    }
+        }
+
 }
 
 void user_app_connection(uint8_t connection_idx, struct gapc_connection_req_ind const *param)
@@ -81,15 +82,16 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
         app_easy_timer_cancel(app_param_update_request_timer_used);
         app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
     }
-    power_svc_init();
-    adv_svc_init();
-    mnf_svc_init();
 
-    if(mnf_svc_is_mnf_initialized()){
-        power_svc_start_sleep_wakeup_cycle();
-    } else {
-        adv_svc_start_undirected_adv();
+    if(adv_mode == ADV_INIT_COMPLETED){
+        adv_mode = ADV_DEFAULT;
+        adv_svc_start_non_conn_adv();
     }
+
+    // if(mnf_svc_is_mnf_initialized()){
+    //     power_svc_start_sleep_wakeup_cycle();
+    // } else {
+    // }
 }
 
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
@@ -102,10 +104,7 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
         case CUSTS1_VAL_WRITE_IND:
         {
             struct custs1_val_write_ind const *msg_param = (struct custs1_val_write_ind const *)(param);
-            if (msg_param->handle == SVC1_IDX_SERIAL_VAL)
-            {
                 user_svc1_serial_wr_ind_handler(msgid, msg_param, dest_id, src_id);
-            }
         } break;
 
         case CUSTS1_ATT_INFO_REQ:
@@ -121,7 +120,6 @@ void user_catch_rest_hndl(ke_msg_id_t const msgid,
             cfm->handle = ind->handle;
             KE_MSG_SEND(cfm);
         } break;
-
         default:
             break;
     }

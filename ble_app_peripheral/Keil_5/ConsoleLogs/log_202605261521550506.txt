@@ -1,0 +1,136 @@
+[ACTION   General@26-05-26 15:22:39] Please press the hardware reset button on the board to start the download process.
+[INFO     General@26-05-26 15:22:48] Found SW-DP with ID 0x0BC11477
+[INFO     General@26-05-26 15:22:48] DPIDR: 0x0BC11477
+[INFO     General@26-05-26 15:22:48] Scanning AP map to find all available APs
+[INFO     General@26-05-26 15:22:48] AP[1]: Stopped AP scan as end of AP map has been reached
+[INFO     General@26-05-26 15:22:48] AP[0]: AHB-AP (IDR: 0x04770031)
+[INFO     General@26-05-26 15:22:48] Iterating through AP map to find AHB-AP to use
+[INFO     General@26-05-26 15:22:48] AP[0]: Core found
+[INFO     General@26-05-26 15:22:48] AP[0]: AHB-AP ROM base: 0xE00FF000
+[INFO     General@26-05-26 15:22:48] CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+[INFO     General@26-05-26 15:22:48] Found Cortex-M0 r0p1, Little endian.
+[INFO     General@26-05-26 15:22:49] FPUnit: 4 code (BP) slots and 0 literal slots
+[INFO     General@26-05-26 15:22:49] CoreSight components:
+[INFO     General@26-05-26 15:22:49] ROMTbl[0] @ E00FF000
+[INFO     General@26-05-26 15:22:49] ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+[INFO     General@26-05-26 15:22:49] ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+[INFO     General@26-05-26 15:22:49] ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+[INFO     General@26-05-26 15:22:49] BLE device selected.
+[INFO     General@26-05-26 15:23:01] Found SW-DP with ID 0x0BC11477
+[INFO     General@26-05-26 15:23:01] DPIDR: 0x0BC11477
+[INFO     General@26-05-26 15:23:01] Scanning AP map to find all available APs
+[INFO     General@26-05-26 15:23:01] AP[1]: Stopped AP scan as end of AP map has been reached
+[INFO     General@26-05-26 15:23:01] AP[0]: AHB-AP (IDR: 0x04770031)
+[INFO     General@26-05-26 15:23:01] Iterating through AP map to find AHB-AP to use
+[INFO     General@26-05-26 15:23:01] AP[0]: Core found
+[INFO     General@26-05-26 15:23:01] AP[0]: AHB-AP ROM base: 0xE00FF000
+[INFO     General@26-05-26 15:23:01] CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+[INFO     General@26-05-26 15:23:01] Found Cortex-M0 r0p1, Little endian.
+[INFO     General@26-05-26 15:23:01] FPUnit: 4 code (BP) slots and 0 literal slots
+[INFO     General@26-05-26 15:23:01] CoreSight components:
+[INFO     General@26-05-26 15:23:01] ROMTbl[0] @ E00FF000
+[INFO     General@26-05-26 15:23:01] ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+[INFO     General@26-05-26 15:23:01] ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+[INFO     General@26-05-26 15:23:01] ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+[INFO     General@26-05-26 15:23:01] BLE device selected.
+[INFO     General@26-05-26 15:23:01] Found SW-DP with ID 0x0BC11477
+[INFO     General@26-05-26 15:23:02] DPIDR: 0x0BC11477
+[INFO     General@26-05-26 15:23:02] Scanning AP map to find all available APs
+[INFO     General@26-05-26 15:23:02] AP[1]: Stopped AP scan as end of AP map has been reached
+[INFO     General@26-05-26 15:23:02] AP[0]: AHB-AP (IDR: 0x04770031)
+[INFO     General@26-05-26 15:23:02] Iterating through AP map to find AHB-AP to use
+[INFO     General@26-05-26 15:23:02] AP[0]: Core found
+[INFO     General@26-05-26 15:23:02] AP[0]: AHB-AP ROM base: 0xE00FF000
+[INFO     General@26-05-26 15:23:02] CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+[INFO     General@26-05-26 15:23:02] Found Cortex-M0 r0p1, Little endian.
+[INFO     General@26-05-26 15:23:02] FPUnit: 4 code (BP) slots and 0 literal slots
+[INFO     General@26-05-26 15:23:02] CoreSight components:
+[INFO     General@26-05-26 15:23:02] ROMTbl[0] @ E00FF000
+[INFO     General@26-05-26 15:23:02] ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+[INFO     General@26-05-26 15:23:02] ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+[INFO     General@26-05-26 15:23:02] ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+[INFO     General@26-05-26 15:23:02] BLE device selected.
+[INFO     Flash Code@26-05-26 15:24:16] Found SW-DP with ID 0x0BC11477
+[INFO     Flash Code@26-05-26 15:24:16] DPIDR: 0x0BC11477
+[INFO     Flash Code@26-05-26 15:24:16] AP map detection skipped. Manually configured AP map found.
+[INFO     Flash Code@26-05-26 15:24:16] AP[0]: AHB-AP (IDR: Not set)
+[INFO     Flash Code@26-05-26 15:24:16] AP[0]: Core found
+[INFO     Flash Code@26-05-26 15:24:16] AP[0]: AHB-AP ROM base: 0xE00FF000
+[INFO     Flash Code@26-05-26 15:24:16] CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+[INFO     Flash Code@26-05-26 15:24:16] Found Cortex-M0 r0p1, Little endian.
+[INFO     Flash Code@26-05-26 15:24:17] FPUnit: 4 code (BP) slots and 0 literal slots
+[INFO     Flash Code@26-05-26 15:24:17] CoreSight components:
+[INFO     Flash Code@26-05-26 15:24:17] ROMTbl[0] @ E00FF000
+[INFO     Flash Code@26-05-26 15:24:17] ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+[INFO     Flash Code@26-05-26 15:24:17] ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+[INFO     Flash Code@26-05-26 15:24:17] ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:24:17] Firmware File C:\Program Files\SmartSnippetsToolbox\SmartSnippetsToolbox5.0.28\common_resources\SupportPackages\DA1453x\toolbox_resources/common/jtag_programmer_531.bin has been selected for downloading.
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:24:17] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:24:17] Detected flash with the following properties: manufacturer: Puya, name: P25Q11U, jedec id: 0x854011, size: 131072 bytes.
+[INFO     SPI Flash Programmer@26-05-26 15:24:56] Copying file: C:\DA145xx_SDK\6.0.24.1464\projects\target_apps\ble_examples\ble_app_peripheral\Keil_5\out_DA14531\Objects\ble_app_peripheral_531.bin to C:\Users\daniel\AppData\Local\Temp\\input1.bin.
+[INFO     Flash Code@26-05-26 15:24:57] Read 31316 bytes from file C:\Users\daniel\AppData\Local\Temp\\input1.bin.
+[ERROR    Flash Code@26-05-26 15:25:02] Length to erase (End - Start address) is 0 bytes. Please correct Start/End address and try again.
+[INFO     Flash Code@26-05-26 15:25:10] Check if memory empty...
+[INFO     SPI Flash Programmer@26-05-26 15:25:10] Successfully configured SPI ports and pins.
+[INFO     Flash Code@26-05-26 15:25:11] Read 16384 bytes from offset 0x00
+[INFO     Flash Code@26-05-26 15:25:11] Read 14932 bytes from offset 0x4000
+[INFO     SPI Flash Programmer@26-05-26 15:25:13] Started erasing from 0x00 to 0x8000 (9 sectors)
+[INFO     SPI Flash Programmer@26-05-26 15:25:13] Memory erasing completed successfully.
+[INFO     Flash Code@26-05-26 15:25:13] Started burning memory with 31316 bytes of data at address 0x00.
+[INFO     Flash Code@26-05-26 15:25:14] Burned chunk with size 16384 bytes at offset 0x00
+[INFO     Flash Code@26-05-26 15:25:14] Memory burning completed successfully.
+[INFO     Flash Code@26-05-26 15:25:14] Reading memory to refresh table contents....
+[INFO     Flash Code@26-05-26 15:25:15] Read 16384 bytes from offset 0x00
+[INFO     Flash Code@26-05-26 15:25:15] Read 14932 bytes from offset 0x4000
+[INFO     Flash Code@26-05-26 15:25:15] Reading has finished. Read 31316 bytes.
+[INFO     Flash Code@26-05-26 15:25:15] Sent reset command. If application won't start replug the board.
+[INFO     Flash Code@26-05-26 15:47:34] Started reading 31316 bytes from memory.
+[ERROR    Flash Code@26-05-26 15:47:45] Error: Failed reading 16384 bytes from offset 0x00
+[ERROR    Flash Code@26-05-26 15:47:45] Failed reading memory.
+[INFO     Flash Code@26-05-26 15:48:56] Started reading 31316 bytes from memory.
+[ERROR    Flash Code@26-05-26 15:49:07] Error: Failed reading 16384 bytes from offset 0x00
+[ERROR    Flash Code@26-05-26 15:49:07] Failed reading memory.
+[INFO     Flash Code@26-05-26 15:49:12] Started erasing from 0x00 to 0x7A54 (8 sectors)
+[ERROR    Flash Code@26-05-26 15:49:22] Memory erasing failed.
+[INFO     Flash Code@26-05-26 15:49:29] Found SW-DP with ID 0x0BC11477
+[INFO     Flash Code@26-05-26 15:49:29] DPIDR: 0x0BC11477
+[INFO     Flash Code@26-05-26 15:49:29] AP map detection skipped. Manually configured AP map found.
+[INFO     Flash Code@26-05-26 15:49:29] AP[0]: AHB-AP (IDR: Not set)
+[INFO     Flash Code@26-05-26 15:49:29] AP[0]: Core found
+[INFO     Flash Code@26-05-26 15:49:29] AP[0]: AHB-AP ROM base: 0xE00FF000
+[INFO     Flash Code@26-05-26 15:49:29] CPUID register: 0x410CC601. Implementer code: 0x41 (ARM)
+[INFO     Flash Code@26-05-26 15:49:29] Found Cortex-M0 r0p1, Little endian.
+[INFO     Flash Code@26-05-26 15:49:29] FPUnit: 4 code (BP) slots and 0 literal slots
+[INFO     Flash Code@26-05-26 15:49:29] CoreSight components:
+[INFO     Flash Code@26-05-26 15:49:29] ROMTbl[0] @ E00FF000
+[INFO     Flash Code@26-05-26 15:49:29] ROMTbl[0][0]: E000E000, CID: B105E00D, PID: 000BB008 SCS
+[INFO     Flash Code@26-05-26 15:49:29] ROMTbl[0][1]: E0001000, CID: B105E00D, PID: 000BB00A DWT
+[INFO     Flash Code@26-05-26 15:49:29] ROMTbl[0][2]: E0002000, CID: B105E00D, PID: 000BB00B FPB
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:49:29] Firmware File C:\Program Files\SmartSnippetsToolbox\SmartSnippetsToolbox5.0.28\common_resources\SupportPackages\DA1453x\toolbox_resources/common/jtag_programmer_531.bin has been selected for downloading.
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Halt core after reset via DEMCR.VC_CORERESET.
+[INFO     Flash Code@26-05-26 15:49:29] Reset: Reset device via AIRCR.SYSRESETREQ.
+[INFO     Flash Code@26-05-26 15:49:29] Detected flash with the following properties: manufacturer: Puya, name: P25Q11U, jedec id: 0x854011, size: 131072 bytes.
+[INFO     Flash Code@26-05-26 15:49:36] Started reading 31316 bytes from memory.
+[INFO     SPI Flash Programmer@26-05-26 15:49:36] Successfully configured SPI ports and pins.
+[INFO     Flash Code@26-05-26 15:49:37] Read 16384 bytes from offset 0x00
+[INFO     Flash Code@26-05-26 15:49:38] Read 14932 bytes from offset 0x4000
+[INFO     Flash Code@26-05-26 15:49:38] Reading has finished. Read 31316 bytes.
+[INFO     Flash Code@26-05-26 15:52:41] Started reading 131072 bytes from memory.
+[INFO     Flash Code@26-05-26 15:52:42] Read 16384 bytes from offset 0x00
+[INFO     Flash Code@26-05-26 15:52:42] Read 16384 bytes from offset 0x4000
+[INFO     Flash Code@26-05-26 15:52:43] Read 16384 bytes from offset 0x8000
+[INFO     Flash Code@26-05-26 15:52:44] Read 16384 bytes from offset 0xC000
+[INFO     Flash Code@26-05-26 15:52:45] Read 16384 bytes from offset 0x10000
+[INFO     Flash Code@26-05-26 15:52:46] Read 16384 bytes from offset 0x14000
+[INFO     Flash Code@26-05-26 15:52:46] Read 16384 bytes from offset 0x18000
+[INFO     Flash Code@26-05-26 15:52:47] Read 16384 bytes from offset 0x1C000
+[INFO     Flash Code@26-05-26 15:52:47] Reading has finished. Read 131072 bytes.

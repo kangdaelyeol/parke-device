@@ -65,7 +65,7 @@ static int motion_detected(void)
 
 static void on_finish_advertising(void)
 {
-    adv_svc_stop_adv();
+    adv_svc_stop_adv(ADV_DEFAULT);
     power_svc_go_to_sleep();
 }
 
@@ -77,12 +77,11 @@ static void on_accelerometer_scan(void)
 
     if (motion_detected())
     {
-        // 움직임 감지 → 광고 시작
         lis3dh_svc_stop_scan();
     
         power_svc_stop_cycle();
         adv_svc_start_non_conn_adv();
-        app_easy_timer(ADV_DURATION, on_finish_advertising); // 2초 후에 다시 체크
+        app_easy_timer(ADV_DURATION, on_finish_advertising); // 5초 후에 다시 체크
     }
     else {
         accelerometer_scan_hnd = app_easy_timer(ACCEL_CHECK_INTERVAL, on_accelerometer_scan);
@@ -99,6 +98,7 @@ void lis3dh_svc_init(void) {
 void lis3dh_svc_start_scan(void) {
     if (accelerometer_scan_hnd != EASY_TIMER_INVALID_TIMER) {
         app_easy_timer_cancel(accelerometer_scan_hnd);
+        accelerometer_scan_hnd = EASY_TIMER_INVALID_TIMER;
     }
     accelerometer_scan_hnd = app_easy_timer(ACCEL_CHECK_INTERVAL, on_accelerometer_scan);
 }
