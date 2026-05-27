@@ -7,6 +7,7 @@
 #include "adv_service.h"
 #include "mnf_service.h"
 #include "user_peripheral.h"
+#include "lis3dh_service.h"
 
 uint8_t is_advertising __SECTION_ZERO("retention_mem_area0");
 
@@ -14,11 +15,35 @@ uint8_t is_advertising __SECTION_ZERO("retention_mem_area0");
 // state machine variables
 adv_mode_t adv_mode __SECTION_ZERO("retention_mem_area0");
 
+
+// test for accelometer
+timer_hnd adv_timer __SECTION_ZERO("retention_mem_area0");
+
+
+void update_mnf_dx() {
+    int16_t dx = get_accelerometer_dx();
+    uint8_t* mnf = (uint8_t*)mnf_dv_get_mnf_data();
+    mnf[MNF_COMPANY_LEN + MNF_DEVICE_ID_LEN + MNF_BATTERY_LEVEL_LEN] = (uint8_t)(dx & 0xFF);
+    mnf[MNF_COMPANY_LEN + MNF_DEVICE_ID_LEN + MNF_BATTERY_LEVEL_LEN + 1] = (uint8_t)((dx >> 8) & 0xFF);
+    
+    uint8_t adv_data[USER_ADVERTISE_DATA_LEN];
+    memcpy(adv_data, USER_ADVERTISE_DATA, USER_ADVERTISE_DATA_LEN);
+    memcpy(&adv_data[6], mnf, MNF_DATA_LEN);
+    app_easy_gap_update_adv_data(adv_data, USER_ADVERTISE_DATA_LEN, NULL ,0);
+}
+
+void adv_timer_callback() {
+    update_mnf_dx();
+    adv_timer = app_easy_timer(50, adv_timer_callback);
+}
+
+
 // Public methods
 
 void adv_svc_init(void) {
     is_advertising = 0;
     adv_mode = ADV_DEFAULT;
+    adv_timer = EASY_TIMER_INVALID_TIMER;
 }
 
 void adv_svc_stop_adv(adv_mode_t mode) {
@@ -41,14 +66,15 @@ void adv_svc_start_undirected_adv(void) {
         return;
     }
 
-    const uint8_t* mnf = mnf_svc_get_mnf_data();
-
     mnf_svc_update_battery_level();
 
-    memcpy(&cmd->info.host.adv_data[6], mnf, 11);
+    const uint8_t* mnf = mnf_svc_get_mnf_data();
+
+    memcpy(&cmd->info.host.adv_data[6], mnf, MNF_DATA_LEN);
     cmd->info.host.adv_data_len = USER_ADVERTISE_DATA_LEN;
 
     app_easy_gap_undirected_advertise_start();
+    adv_timer_callback();
     is_advertising = 1;
 }
 
@@ -62,12 +88,15 @@ void adv_svc_start_non_conn_adv(void) {
         return;
     }
 
+    mnf_svc_update_battery_level();
+    
     const uint8_t* mnf = mnf_svc_get_mnf_data();
 
-    memcpy(&cmd->info.host.adv_data[6], mnf, 11);
+    memcpy(&cmd->info.host.adv_data[6], mnf, MNF_DATA_LEN);
     cmd->info.host.adv_data_len = USER_ADVERTISE_DATA_LEN;
 
     app_easy_gap_non_connectable_advertise_start();
+    adv_timer_callback();
     is_advertising = 1;
 }
 

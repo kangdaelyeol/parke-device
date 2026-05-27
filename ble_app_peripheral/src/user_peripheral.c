@@ -11,6 +11,7 @@
 #include "power_service.h"
 #include "adv_service.h"
 #include "mnf_service.h"
+#include "lis3dh_service.h"
 
 /*
  * GLOBAL VARIABLES
@@ -40,6 +41,7 @@ static void param_update_request_timer_cb(void)
 void user_app_init(void)
 {
     app_param_update_request_timer_used = EASY_TIMER_INVALID_TIMER;
+    lis3dh_svc_init();
     power_svc_init();
     adv_svc_init();
     mnf_svc_init();

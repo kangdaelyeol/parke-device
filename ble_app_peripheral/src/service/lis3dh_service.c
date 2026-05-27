@@ -38,7 +38,6 @@ static void lis3dh_read_xyz(lis3dh_xyz *result)
 // static functions
 static int motion_detected(void)
 {
-    // static 변수 제거하고 전역 변수 사용
     int16_t x, y, z;
     int16_t dx, dy, dz;
 
@@ -88,10 +87,19 @@ static void on_accelerometer_scan(void)
     }
 }
 
+int16_t get_accelerometer_dx(void) {
+    lis3dh_xyz xyz;
+    lis3dh_read_xyz(&xyz);
+    int16_t x = xyz.x;
+    int16_t dx = x - lis3dh_prev_x;
+    lis3dh_prev_x = x;
+    return dx;
+}
+
 void lis3dh_svc_init(void) {
     if (lis3dh_detect())
     {
-        lis3dh_init();
+        lis3dh_dv_init();
     }
 }
 

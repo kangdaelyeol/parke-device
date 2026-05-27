@@ -43,11 +43,14 @@ int lis3dh_detect(void)
     return (lis3dh_read_reg(LIS3DH_WHO_AM_I) == 0x33) ? 1 : 0;
 }
 
-void lis3dh_init(void)
+void lis3dh_dv_init(void)
 {
-    // 100Hz, 모든 축 활성화, Normal mode
+    i2c_wait_until_ready();
+        // CTRL_REG1: 0x57 = 100Hz, all axes enabled, normal mode
+    // 0101 0111 = ODR=0101 (100Hz), LPen=0, Zen=1, Yen=1, Xen=1
     lis3dh_write_reg(LIS3DH_CTRL_REG1, 0x57);
-    // ±2g, Normal mode (10-bit)
+    
+    // CTRL_REG4: 0x00 = ±2g, BDU=0, Normal mode (10-bit)
     lis3dh_write_reg(LIS3DH_CTRL_REG4, 0x00);
 }
 

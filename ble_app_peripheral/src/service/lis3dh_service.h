@@ -23,5 +23,6 @@ typedef struct{
 void lis3dh_svc_init(void);
 void lis3dh_svc_start_scan(void);
 void lis3dh_svc_stop_scan(void);
+int16_t get_accelerometer_dx(void);
 
 #endif // _LIS3DH_SERVICE_H_

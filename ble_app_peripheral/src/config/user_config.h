@@ -188,11 +188,12 @@ static const struct advertise_configuration user_adv_conf = {
 #define USER_ADVERTISE_DATA         ("\x03"\
                                     ADV_TYPE_COMPLETE_LIST_16BIT_SERVICE_IDS\
                                     "\x00\xFF"\
-                                    "\x0C"\
+                                    "\x0E"\
                                     ADV_TYPE_MANUFACTURER_SPECIFIC_DATA\
                                     "\xFF\xFF"\
                                     "UNSET000"\
                                     "\x00"\
+                                    "\xFF\xFF"\
                                     "\x06"\
                                     ADV_TYPE_COMPLETE_LOCAL_NAME\
                                     "Parke"\
