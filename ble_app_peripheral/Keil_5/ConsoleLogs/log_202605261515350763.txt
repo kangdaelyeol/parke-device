@@ -1,1 +1,0 @@
-[INFO     Power Profiler@26-05-26 15:17:28] Analyzing data process terminated
