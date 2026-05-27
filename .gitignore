@@ -4,3 +4,5 @@ ldscript_DA14531.lds
 build
 ble_app_peripheral/Keil_5/out_*
 ble_app_peripheral/Keil_5/JLinkLog.txt
+ble_app_peripheral/Keil_5/ConsoleLogs
+ble_app_peripheral/Keil_5/JTAGLogs

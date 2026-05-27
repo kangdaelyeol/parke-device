@@ -4,7 +4,7 @@
 
 // Defines
 #ifndef ACCEL_MOTION_THRESHOLD
-#define ACCEL_MOTION_THRESHOLD  20    // 움직임 감지 임계값
+#define ACCEL_MOTION_THRESHOLD  40    // 움직임 감지 임계값
 
 #define ACCEL_CHECK_INTERVAL 100   // 가속도 체크 간격 (단위: 10ms)
 #define ADV_DURATION 500         // 광고 지속 시간 (단위: 10ms)

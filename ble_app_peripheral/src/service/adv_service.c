@@ -74,7 +74,6 @@ void adv_svc_start_undirected_adv(void) {
     cmd->info.host.adv_data_len = USER_ADVERTISE_DATA_LEN;
 
     app_easy_gap_undirected_advertise_start();
-    adv_timer_callback();
     is_advertising = 1;
 }
 
@@ -96,7 +95,6 @@ void adv_svc_start_non_conn_adv(void) {
     cmd->info.host.adv_data_len = USER_ADVERTISE_DATA_LEN;
 
     app_easy_gap_non_connectable_advertise_start();
-    adv_timer_callback();
     is_advertising = 1;
 }
 
@@ -125,7 +123,7 @@ void user_app_adv_nonconn_complete(uint8_t status)
 
     if (status == GAP_ERR_CANCELED || status == GAP_ERR_TIMEOUT)
     {
-        adv_svc_start_non_conn_adv();
+        // adv_svc_start_non_conn_adv();
         return;
     }
 

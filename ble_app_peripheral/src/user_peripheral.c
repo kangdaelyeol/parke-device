@@ -50,10 +50,10 @@ void user_app_init(void)
 
 void user_app_adv_start(void) {
     if(mnf_svc_is_mnf_initialized()){
-        adv_svc_start_non_conn_adv();
+        power_svc_start_sleep_wakeup_cycle();
     } else {
         adv_svc_start_undirected_adv();
-        }
+    }
 
 }
 
@@ -87,13 +87,12 @@ void user_app_disconnect(struct gapc_disconnect_ind const *param)
 
     if(adv_mode == ADV_INIT_COMPLETED){
         adv_mode = ADV_DEFAULT;
-        adv_svc_start_non_conn_adv();
     }
 
-    // if(mnf_svc_is_mnf_initialized()){
-    //     power_svc_start_sleep_wakeup_cycle();
-    // } else {
-    // }
+    if(mnf_svc_is_mnf_initialized()){
+        power_svc_start_sleep_wakeup_cycle();
+    } else {
+    }
 }
 
 void user_catch_rest_hndl(ke_msg_id_t const msgid,
